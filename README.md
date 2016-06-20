@@ -24,8 +24,8 @@ openRadar.login { result in
 let radar = Radar(
     classification: .Feature, product: .BugReporter, reproducibility: .Always,
     title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
-    expected: "Radar to have a REST API available", actual: "HTML", configuration: "N/A",
-    version: "Any", notes: "N/A"
+    expected: "Radar to have a REST API available", actual: "API not provided", 
+    configuration: "N/A", version: "Any", notes: "N/A"
 )
 
 let openRadar = Sonar(service: .OpenRadar(token: "abcdefg"))
@@ -34,14 +34,14 @@ openRadar.create(radar: radar) { result in
 }
 ```
 
-### Login and create radar on the same request
+### Login and Create radar on the same call
 
 ```swift
 let radar = Radar(
     classification: .Feature, product: .BugReporter, reproducibility: .Always,
     title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
-    expected: "Radar to have a REST API available", actual: "HTML", configuration: "N/A",
-    version: "Any", notes: "N/A"
+    expected: "Radar to have a REST API available", actual: "API not provided",
+    configuration: "N/A", version: "Any", notes: "N/A"
 )
 
 let appleRadar = Sonar(service: .AppleRadar(appleID: "a", password: "b"))
