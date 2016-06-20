@@ -21,7 +21,10 @@ public class Sonar {
                           on failure a `SonarError`.
     */
     public func login(closure: Result<Void, SonarError> -> Void) {
-        self.tracker.login(closure)
+        self.tracker.login { result in
+            closure(result)
+            self.hold()
+        }
     }
 
     /**
@@ -32,7 +35,10 @@ public class Sonar {
                           contain a radar ID; on failure a `SonarError`.
     */
     public func create(radar radar: Radar, closure: Result<Int, SonarError> -> Void) {
-        self.tracker.create(radar: radar, closure: closure)
+        self.tracker.create(radar: radar) { result in
+            closure(result)
+            self.hold()
+        }
     }
 
     /**
@@ -52,4 +58,6 @@ public class Sonar {
             self.create(radar: radar, closure: closure)
         }
     }
+
+    private func hold() {}
 }

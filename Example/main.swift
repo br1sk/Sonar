@@ -1,11 +1,12 @@
 import Sonar
 import Foundation
 
-let env = NSProcessInfo.processInfo().environment
-let openRadar = Sonar(service: .OpenRadar(token: env["SONAR_OPENRADAR_TOKEN"]!))
-let appleRadar = Sonar(service: .AppleRadar(appleID: env["SONAR_APPLEID"]!, password: env["SONAR_PASSWORD"]!))
 
 func main() {
+    let env = NSProcessInfo.processInfo().environment
+    let openRadar = Sonar(service: .OpenRadar(token: env["SONAR_OPENRADAR_TOKEN"]!))
+    let appleRadar = Sonar(service: .AppleRadar(appleID: env["SONAR_APPLEID"]!,
+                                                password: env["SONAR_PASSWORD"]!))
     let radar = Radar(
         classification: .Feature, product: .BugReporter, reproducibility: .Always,
         title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
@@ -18,7 +19,7 @@ func main() {
     }
 
     openRadar.loginThenCreate(radar: radar) { result in
-        guard case let .Success(products) = result else {
+        guard case .Success = result else {
             print("Error!", result.error)
             return
         }

@@ -39,7 +39,7 @@ class OpenRadar: BugTracker {
             .request(OpenRadarRouter.Create(radar: radar))
             .validate()
             .responseJSON { response in
-                guard case let .Success(value) = response.result else {
+                guard case .Success = response.result else {
                     closure(.Failure(SonarError.fromResponse(response)))
                     return
                 }
