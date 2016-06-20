@@ -1,31 +1,29 @@
 import Sonar
 import Foundation
 
-let sonar = Sonar()
+let env = NSProcessInfo.processInfo().environment
+let openRadar = Sonar(service: .OpenRadar(token: env["SONAR_OPENRADAR_TOKEN"]!))
+let appleRadar = Sonar(service: .AppleRadar(appleID: env["SONAR_APPLEID"]!, password: env["SONAR_PASSWORD"]!))
 
 func main() {
-    let env = NSProcessInfo.processInfo().environment
-    guard let appleID = env["SONAR_APPLE_ID"], password = env["SONAR_PASSWORD"] else {
-        print("Invalid SONAR_APPLE_ID and SONAR_PASSWORD environment variables")
-        return
+    let radar = Radar(
+        classification: .Feature, product: .BugReporter, reproducibility: .Always,
+        title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
+        expected: "Radar to have a REST API available", actual: "HTML", configuration: "N/A",
+        version: "Any", notes: "N/A", ID: 1337
+    )
+
+    appleRadar.loginThenCreate(radar: radar) { result in
+        print(result.value)
     }
 
-    sonar.login(withAppleID: appleID, password: password) { result in
+    openRadar.loginThenCreate(radar: radar) { result in
         guard case let .Success(products) = result else {
             print("Error!", result.error)
             return
         }
 
-        let radar = Radar(
-            classification: .Feature, product: products[2], reproducibility: .Always,
-            title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
-            expected: "Radar to have a REST API available", actual: "HTML", configuration: "N/A",
-            version: "Any", notes: "N/A"
-        )
-
-        sonar.create(radar: radar) { result in
-            print(result.value)
-        }
+        print(result.value)
     }
 }
 
