@@ -5,8 +5,6 @@ class OpenRadar: BugTracker {
 
     private let manager: Alamofire.Manager
 
-    /**
-    */
     init(token: String) {
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = ["Authorization": token]
@@ -15,7 +13,7 @@ class OpenRadar: BugTracker {
     }
 
     /**
-     Login into radar by an apple ID and password.
+     Login into open radar. This is actually a NOP for now (token is saved into the session).
 
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a list of `Product`s; on failure a `SonarError`.
