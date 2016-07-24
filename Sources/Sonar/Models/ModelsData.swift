@@ -68,7 +68,7 @@ extension Area {
     public static let SetupAssistant = Area(appleIdentifier: 38, name: "Setup Assistant")
     public static let SoftwareUpdate = Area(appleIdentifier: 39, name: "Software Update")
     public static let Spotlight = Area(appleIdentifier: 40, name: "Spotlight")
-    public static let SpringBorad = Area(appleIdentifier: 41, name: "SpringBorad (Home Screen)")
+    public static let SpringBorad = Area(appleIdentifier: 41, name: "SpringBoard (Home Screen)")
     public static let SpriteKit = Area(appleIdentifier: 42, name: "SpriteKit")
     public static let StoreKit = Area(appleIdentifier: 43, name: "StoreKit")
     public static let SystemSlow = Area(appleIdentifier: 44, name: "System Slow/Unresponsive")
