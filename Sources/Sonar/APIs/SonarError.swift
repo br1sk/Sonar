@@ -29,10 +29,13 @@ public struct SonarError: ErrorType {
             return .AuthenticationError
         }
 
-        guard case let .Failure(error) = response.result else {
-            return .UnknownError
+        switch response.result {
+            case .Failure(let error as NSError):
+                return SonarError(message: error.localizedDescription)
+            case .Failure(let error):
+                return SonarError(message: String(error))
+            default:
+                return .UnknownError
         }
-
-        return SonarError(message: String(error))
     }
 }
