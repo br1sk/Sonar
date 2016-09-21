@@ -101,9 +101,9 @@ extension Product {
 
     public static let iOS = Product(579020, "iOS", "OS and Development")
     public static let iOSSDK = Product(584784, "iOS SDK", "OS and Development")
-    public static let macOS = Product(137701, "OS X", "OS and Development")
-    public static let macOSSDK = Product(430026, "OS X SDK", "OS and Development")
-    public static let macOSServer = Product(84100, "OS X Server", "OS and Development")
+    public static let macOS = Product(137701, "macOS", "OS and Development")
+    public static let macOSSDK = Product(430026, "macOS SDK", "OS and Development")
+    public static let macOSServer = Product(84100, "Server", "OS and Development")
     public static let tvOS = Product(660932, "tvOS", "OS and Development")
     public static let tvOSSDK = Product(662000, "tvOS SDK", "OS and Development")
     public static let watchOS = Product(645251, "watchOS", "OS and Development")
