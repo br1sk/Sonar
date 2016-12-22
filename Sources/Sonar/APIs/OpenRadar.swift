@@ -2,14 +2,13 @@ import Alamofire
 import Foundation
 
 class OpenRadar: BugTracker {
-
-    private let manager: Alamofire.Manager
+    private let manager: Alamofire.SessionManager
 
     init(token: String) {
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.HTTPAdditionalHeaders = ["Authorization": token]
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = ["Authorization": token]
 
-        self.manager = Alamofire.Manager(configuration: configuration)
+        self.manager = Alamofire.SessionManager(configuration: configuration)
     }
 
     /**
@@ -18,8 +17,8 @@ class OpenRadar: BugTracker {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a list of `Product`s; on failure a `SonarError`.
     */
-    func login(closure: Result<Void, SonarError> -> Void) {
-        closure(.Success())
+    func login(closure: @escaping (Result<Void, SonarError>) -> Void) {
+        closure(.success())
     }
 
     /**
@@ -29,9 +28,9 @@ class OpenRadar: BugTracker {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a radar ID; on failure a `SonarError`.
     */
-    func create(radar radar: Radar, closure: Result<Int, SonarError> -> Void) {
+    func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
         guard let ID = radar.ID else {
-            closure(.Failure(SonarError(message: "Invalid radar ID")))
+            closure(.failure(SonarError(message: "Invalid radar ID")))
             return
         }
 
@@ -39,13 +38,12 @@ class OpenRadar: BugTracker {
             .request(OpenRadarRouter.Create(radar: radar))
             .validate()
             .responseJSON { response in
-                guard case .Success = response.result else {
-                    closure(.Failure(SonarError.fromResponse(response)))
+                guard case .success = response.result else {
+                    closure(.failure(SonarError.from(response)))
                     return
                 }
 
-                closure(.Success(ID))
+                closure(.success(ID))
             }
     }
 }
-

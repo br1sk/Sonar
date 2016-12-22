@@ -3,8 +3,8 @@ import Foundation
 
 private let kRadarAppID = "77e2a60d4bdfa6b7311c854a56505800be3c24e3a27a670098ff61b69fc5214b"
 
-typealias Components = (path: String, method: Alamofire.Method, headers: [String: String],
-                        data: NSData?, parameters: [String: String])
+typealias Components = (path: String, method: HTTPMethod, headers: [String: String],
+                        data: Data?, parameters: [String: String])
 
 /**
 Apple's radar request router.
@@ -15,24 +15,23 @@ Apple's radar request router.
 - ViewProblem: The main apple's radar page.
 */
 enum AppleRadarRouter {
-
     case Products(CSRF: String)
     case Login(appleID: String, password: String)
     case Create(radar: Radar, CSRF: String)
     case ViewProblem
 
-    private static let baseURL = NSURL(string: "https://bugreport.apple.com")!
+    fileprivate static let baseURL = URL(string: "https://bugreport.apple.com")!
 
     /// The request components including headers and parameters.
     var components: Components {
         switch self {
             case .ViewProblem:
-                return (path: "/problem/viewproblem", method: .GET, headers: [:], data: nil, parameters: [:])
+                return (path: "/problem/viewproblem", method: .get, headers: [:], data: nil, parameters: [:])
 
             case .Login(let appleID, let password):
                 let fullURL = "https://idmsa.apple.com/IDMSWebAuth/authenticate"
                 let headers = ["Content-Type": "application/x-www-form-urlencoded"]
-                return (path: fullURL, method: .POST, headers: headers, data: nil, parameters: [
+                return (path: fullURL, method: .post, headers: headers, data: nil, parameters: [
                     "appIdKey": kRadarAppID, "accNameLocked": "false", "rv": "3", "Env": "PROD",
                     "appleId": appleID, "accountPassword": password
                 ])
@@ -45,11 +44,11 @@ enum AppleRadarRouter {
                 ]
 
                 let timestamp = Int(NSDate().timeIntervalSince1970 * 100)
-                return (path: "/developer/problem/getProductFullList", method: .GET,
+                return (path: "/developer/problem/getProductFullList", method: .get,
                         headers: headers, data: nil, parameters: ["_": String(timestamp)])
 
             case .Create(let radar, let CSRF):
-                let JSON = [
+                let JSON: [String: Any] = [
                     "problemTitle": radar.title,
                     "configIDPop": "",
                     "configTitlePop": "",
@@ -82,41 +81,40 @@ enum AppleRadarRouter {
                     "csrftokencheck": CSRF,
                 ]
 
-                let body = try! NSJSONSerialization.dataWithJSONObject(JSON, options: [])
-                let headers = ["Referer": AppleRadarRouter.ViewProblem.URL.URLString]
-                return (path: "/developer/problem/createNewDevUIProblem", method: .POST, headers: headers,
+                let body = try! JSONSerialization.data(withJSONObject: JSON, options: [])
+                let headers = ["Referer": AppleRadarRouter.ViewProblem.url.absoluteString]
+                return (path: "/developer/problem/createNewDevUIProblem", method: .post, headers: headers,
                         data: body, parameters: [:])
         }
     }
 }
 
 extension AppleRadarRouter: URLRequestConvertible {
-
     /// The URL that will be used for the request.
-    var URL: NSURL {
-        return self.URLRequest.URL!
+    var url: URL {
+        return self.urlRequest!.url!
     }
 
     /// The request representation of the route including parameters and HTTP method.
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() -> URLRequest {
         let (path, method, headers, data, parameters) = self.components
-        let fullURL: NSURL
-        if let URL = NSURL(string: path) where URL.host != nil {
-            fullURL = URL
+        let fullURL: URL
+        if let url = URL(string: path), url.host != nil {
+            fullURL = url
         } else {
-            fullURL = AppleRadarRouter.baseURL.URLByAppendingPathComponent(path)
+            fullURL = AppleRadarRouter.baseURL.appendingPathComponent(path)
         }
 
-        let request = NSMutableURLRequest(URL: fullURL)
-        request.HTTPMethod = method.rawValue
-        request.HTTPBody = data
+        var request = URLRequest(url: fullURL)
+        request.httpMethod = method.rawValue
+        request.httpBody = data
 
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
         }
 
         if data == nil {
-            return Alamofire.ParameterEncoding.URL.encode(request, parameters: parameters).0
+            return try! URLEncoding().encode(request, with: parameters)
         }
 
         return request

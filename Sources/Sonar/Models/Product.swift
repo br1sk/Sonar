@@ -11,8 +11,8 @@ public struct Product {
     init?(dictionary: NSDictionary) {
         guard
             let category = dictionary["categoryName"] as? String,
-            appleIdentifier = dictionary["componentID"] as? Int,
-            name = dictionary["compNameForWeb"] as? String
+            let appleIdentifier = dictionary["componentID"] as? Int,
+            let name = dictionary["compNameForWeb"] as? String
         else {
             return nil
         }

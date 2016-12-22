@@ -14,7 +14,7 @@ public struct Radar {
     public let reproducibility: Reproducibility
     // A short but descriptive sentence that summarizes the issue.
     public let title: String
-    // A detailed description about the issue and include specific details to help the engineering 
+    // A detailed description about the issue and include specific details to help the engineering
     // team understand the problem.
     public let description: String
     // The step by step process to reproduce the issue.
@@ -88,7 +88,7 @@ extension Radar {
         let values = baseTemplate + (templates[self.product.appleIdentifier] ?? [])
         let body = values
             .map { "\($0):\r\n\($1)" }
-            .joinWithSeparator("\r\n\r\n")
+            .joined(separator: "\r\n\r\n")
         return body + "\r\n\r\n"
     }
 }

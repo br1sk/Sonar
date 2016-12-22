@@ -1,7 +1,6 @@
 import Foundation
 
 extension String {
-
     /**
      Returns the string matching in the given group number (if any), nil otherwise.
 
@@ -11,12 +10,12 @@ extension String {
 
      - returns: The string from the given group on the match (if any).
     */
-    func match(pattern: String, group: Int, options: NSRegularExpressionOptions = []) -> String? {
+    func match(pattern: String, group: Int, options: NSRegularExpression.Options = []) -> String? {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: options)
             let range = NSRange(location: 0, length: self.characters.count)
 
-            guard let match = regex.firstMatchInString(self, options: [], range: range) else {
+            guard let match = regex.firstMatch(in: self, options: [], range: range) else {
                 return nil
             }
 
@@ -24,13 +23,13 @@ extension String {
                 return nil
             }
 
-            let matchRange = match.rangeAtIndex(group)
-            let startRange = self.startIndex.advancedBy(matchRange.location)
-            let endRange = startRange.advancedBy(matchRange.length)
+            let matchRange = match.rangeAt(group)
+            let startRange = self.index(self.startIndex, offsetBy: matchRange.location)
+            let endRange = self.index(startRange, offsetBy: matchRange.length)
 
             return self
-                .substringWithRange(startRange ..< endRange)
-                .stringByTrimmingCharactersInSet(.whitespaceAndNewlineCharacterSet())
+                .substring(with: startRange ..< endRange)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
         } catch {
             return nil
         }

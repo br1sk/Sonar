@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.source                = { :git => "https://github.com/br1sk/Sonar.git" }
   s.source_files          = "Sources/**/*.swift"
   s.requires_arc          = true
-  s.dependency              "Alamofire", "~> 3.4.1"
+  s.dependency              "Alamofire", "~> 4.0.0"
 end

@@ -15,14 +15,13 @@ public enum ServiceAuthentication {
  This protocol represents a bug tracker (such as Apple's radar or Open Radar).
 */
 protocol BugTracker {
-
     /**
      Login into bug tracker. This method will use the authentication information provided by the service enum.
 
      - parameter closure: A closure that will be called when the login is completed,
                           on failure a `SonarError`.
     */
-    func login(closure: Result<Void, SonarError> -> Void)
+    func login(closure: @escaping (Result<Void, SonarError>) -> Void)
 
     /**
      Creates a new ticket into the bug tracker (needs authentication first).
@@ -31,5 +30,5 @@ protocol BugTracker {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a radar ID; on failure a `SonarError`.
     */
-    func create(radar radar: Radar, closure: Result<Int, SonarError> -> Void)
+    func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void)
 }

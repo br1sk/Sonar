@@ -20,7 +20,7 @@ public class Sonar {
      - parameter closure: A closure that will be called when the login is completed,
                           on failure a `SonarError`.
     */
-    public func login(closure: Result<Void, SonarError> -> Void) {
+    public func login(closure: @escaping (Result<Void, SonarError>) -> Void) {
         self.tracker.login { result in
             closure(result)
             self.hold()
@@ -34,7 +34,7 @@ public class Sonar {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a radar ID; on failure a `SonarError`.
     */
-    public func create(radar radar: Radar, closure: Result<Int, SonarError> -> Void) {
+    public func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
         self.tracker.create(radar: radar) { result in
             closure(result)
             self.hold()
@@ -48,10 +48,10 @@ public class Sonar {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a radar ID; on failure a `SonarError`.
     */
-    public func loginThenCreate(radar radar: Radar, closure: Result<Int, SonarError> -> Void) {
+    public func loginThenCreate(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
         self.tracker.login { result in
-            if case let .Failure(error) = result {
-                closure(.Failure(error))
+            if case let .failure(error) = result {
+                closure(.failure(error))
                 return
             }
 

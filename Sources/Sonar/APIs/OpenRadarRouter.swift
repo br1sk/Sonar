@@ -7,23 +7,22 @@ Open radar request router.
 - Create: The `Route` used to create a new radar.
 */
 enum OpenRadarRouter {
-
     case Create(radar: Radar)
 
-    private static let baseURL = NSURL(string: "https://openradar.appspot.com")!
+    fileprivate static let baseURL = URL(string: "https://openradar.appspot.com")!
 
     /// The request components including headers and parameters.
-    var components: (path: String, method: Alamofire.Method, parameters: [String: String]) {
+    var components: (path: String, method: Alamofire.HTTPMethod, parameters: [String: String]) {
         switch self {
             case .Create(let radar):
-                let formatter = NSDateFormatter()
+                let formatter = DateFormatter()
                 formatter.dateFormat = "dd-MMM-yyyy hh:mm a"
 
-                return (path: "/api/radars/add", method: .POST, parameters: [
+                return (path: "/api/radars/add", method: .post, parameters: [
                     "classification": radar.classification.name,
                     "description": radar.body,
                     "number": radar.ID.map { String($0) } ?? "",
-                    "originated": formatter.stringFromDate(NSDate()),
+                    "originated": formatter.string(from: Date()),
                     "product": radar.product.name,
                     "product_version": radar.version,
                     "reproducible": radar.reproducibility.name,
@@ -35,20 +34,19 @@ enum OpenRadarRouter {
 }
 
 extension OpenRadarRouter: URLRequestConvertible {
-
     /// The URL that will be used for the request.
-    var URL: NSURL {
-        return self.URLRequest.URL!
+    var url: URL {
+        return self.urlRequest!.url!
     }
 
     /// The request representation of the route including parameters and HTTP method.
-    var URLRequest: NSMutableURLRequest {
+    func asURLRequest() -> URLRequest {
         let (path, method, parameters) = self.components
-        let URL = OpenRadarRouter.baseURL.URLByAppendingPathComponent(path)
+        let url = OpenRadarRouter.baseURL.appendingPathComponent(path)
 
-        let request = NSMutableURLRequest(URL: URL)
-        request.HTTPMethod = method.rawValue
-        return Alamofire.ParameterEncoding.URL.encode(request, parameters: parameters).0
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        return try! URLEncoding().encode(request, with: parameters)
     }
 }
 

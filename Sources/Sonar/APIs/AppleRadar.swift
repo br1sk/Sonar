@@ -1,10 +1,9 @@
 import Alamofire
 import Foundation
 
-class AppleRadar: BugTracker {
-
+final class AppleRadar: BugTracker {
     private let credentials: (appleID: String, password: String)
-    private let manager: Alamofire.Manager
+    private let manager: Alamofire.SessionManager
     private var CSRF: String?
 
     /**
@@ -14,12 +13,12 @@ class AppleRadar: BugTracker {
     init(appleID: String, password: String) {
         self.credentials = (appleID: appleID, password: password)
 
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        configuration.HTTPCookieStorage = cookies
-        configuration.HTTPCookieAcceptPolicy = .Always
+        let configuration = URLSessionConfiguration.default
+        let cookies = HTTPCookieStorage.shared
+        configuration.httpCookieStorage = cookies
+        configuration.httpCookieAcceptPolicy = .always
 
-        self.manager = Alamofire.Manager(configuration: configuration)
+        self.manager = Alamofire.SessionManager(configuration: configuration)
     }
 
     /**
@@ -28,34 +27,34 @@ class AppleRadar: BugTracker {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a list of `Product`s; on failure a `SonarError`.
     */
-    func login(closure: Result<Void, SonarError> -> Void) {
+    func login(closure: @escaping (Result<Void, SonarError>) -> Void) {
         self.manager
             .request(AppleRadarRouter.Login(appleID: credentials.appleID, password: credentials.password))
             .validate()
             .responseString { [weak self] response in
-                guard case let .Success(value) = response.result else {
-                    closure(.Failure(SonarError.fromResponse(response)))
+                guard case let .success(value) = response.result else {
+                    closure(.failure(SonarError.from(response)))
                     return
                 }
 
-                if let error = value.match("class=\"dserror\".*?>(.*?)</", group: 1) {
-                    closure(.Failure(SonarError(message: error)))
+                if let error = value.match(pattern: "class=\"dserror\".*?>(.*?)</", group: 1) {
+                    closure(.failure(SonarError(message: error)))
                     return
                 }
 
-                guard let CSRF = value.match("<input.*csrftoken.*value=\"(.*)\"", group: 1) else {
-                    closure(.Failure(SonarError(message: "CSRF not found. Maybe the ID is invalid?")))
+                guard let CSRF = value.match(pattern: "<input.*csrftoken.*value=\"(.*)\"", group: 1) else {
+                    closure(.failure(SonarError(message: "CSRF not found. Maybe the ID is invalid?")))
                     return
                 }
 
                 self?.CSRF = CSRF
                 self?.products { result in
-                    if case let .Failure(error) = result {
-                        closure(.Failure(error))
+                    if case let .failure(error) = result {
+                        closure(.failure(error))
                         return
                     }
 
-                    closure(.Success())
+                    closure(.success())
                 }
             }
     }
@@ -66,9 +65,9 @@ class AppleRadar: BugTracker {
      - parameter closure:  A closure that will be called when the login is completed, on success it will
                            contain a list of `Product`s; on failure a `SonarError`.
     */
-    func products(closure: Result<[Product], SonarError> -> Void) {
+    func products(closure: @escaping (Result<[Product], SonarError>) -> Void) {
         guard let CSRF = self.CSRF else {
-            closure(.Failure(SonarError(message: "User is not logged in")))
+            closure(.failure(SonarError(message: "User is not logged in")))
             return
         }
 
@@ -76,13 +75,13 @@ class AppleRadar: BugTracker {
             .request(AppleRadarRouter.Products(CSRF: CSRF))
             .validate()
             .responseJSON { response in
-                guard case let .Success(value) = response.result else {
-                    closure(.Failure(SonarError.fromResponse(response)))
+                guard case let .success(value) = response.result else {
+                    closure(.failure(SonarError.from(response)))
                     return
                 }
 
                 let products = (value as? [NSDictionary])?.flatMap(Product.init) ?? []
-                closure(.Success(products))
+                closure(.success(products))
             }
     }
 
@@ -93,40 +92,41 @@ class AppleRadar: BugTracker {
      - parameter closure: A closure that will be called when the login is completed, on success it will
                           contain a radar ID; on failure a `SonarError`.
     */
-    func create(radar radar: Radar, closure: Result<Int, SonarError> -> Void) {
+    func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
         guard let CSRF = self.CSRF else {
-            closure(.Failure(SonarError(message: "User is not logged in")))
+            closure(.failure(SonarError(message: "User is not logged in")))
             return
         }
 
         let route = AppleRadarRouter.Create(radar: radar, CSRF: CSRF)
         let (_, method, headers, body, _) = route.components
         let createMultipart = { (data: MultipartFormData) -> Void in
-            data.appendBodyPart(data: body ?? NSData(), name: "hJsonScreenVal")
+            data.append(body ?? Data(), withName: "hJsonScreenVal")
 
             // TODO: Add attachments here (needs to change Radar.toJSON too).
         }
 
         self.manager
-            .upload(method, route.URL, headers: headers, multipartFormData: createMultipart) { result in
-                guard case let .Success(upload, _, _) = result else {
-                    closure(.Failure(.UnknownError))
-                    return
-                }
-
-                upload.validate().responseString { response in
-                    guard case let .Success(value) = response.result else {
-                        closure(.Failure(SonarError.fromResponse(response)))
+            .upload(multipartFormData: createMultipart, to: route.url, method: method, headers: headers)
+                { result in
+                    guard case let .success(upload, _, _) = result else {
+                        closure(.failure(.unknownError))
                         return
                     }
 
-                    guard let radarID = Int(value) else {
-                        closure(.Failure(SonarError(message: "Invalid Radar ID received")))
-                        return
-                    }
+                    upload.validate().responseString { response in
+                        guard case let .success(value) = response.result else {
+                            closure(.failure(SonarError.from(response)))
+                            return
+                        }
 
-                    closure(.Success(radarID))
+                        guard let radarID = Int(value) else {
+                            closure(.failure(SonarError(message: "Invalid Radar ID received")))
+                            return
+                        }
+
+                        closure(.success(radarID))
+                    }
                 }
-            }
     }
 }
