@@ -101,8 +101,7 @@ extension Product {
 
     public static let iOS = Product(579020, "iOS", "OS and Development")
     public static let iOSSDK = Product(584784, "iOS SDK", "OS and Development")
-    public static let macOS = Product(137701, "macOS", "OS and Development")
-    public static let macOSSDK = Product(430026, "macOS SDK", "OS and Development")
+    public static let macOS = Product(137701, "macOS + SDK", "OS and Development")
     public static let macOSServer = Product(84100, "Server", "OS and Development")
     public static let tvOS = Product(660932, "tvOS", "OS and Development")
     public static let tvOSSDK = Product(662000, "tvOS SDK", "OS and Development")
@@ -145,7 +144,7 @@ extension Product {
     public static let Other = Product(20206, "Other", "Other")
 
     public static let All: [Product] = [
-        .iOS, .iOSSDK, .macOS, .macOSSDK, .macOSServer, .tvOS, .tvOSSDK, .watchOS, .watchOSSDK,
+        .iOS, .iOSSDK, .macOS, .macOSServer, .tvOS, .tvOSSDK, .watchOS, .watchOSSDK,
         .DeveloperTools, .Documentation, .iTunesConnect, .ParallaxPreviewer, .SampleCode, .TechNote,
         .iBooks, .iCloud, .iLife, .iTunes, .iWork, .Mail, .ProApps, .QuickTime, .Safari, .SafariBeta, .Siri,
         .SwiftPlaygrounds, .AppleTV, .iPad, .iPhone, .iPod, .Mac, .Printing, .OtherHardware,
