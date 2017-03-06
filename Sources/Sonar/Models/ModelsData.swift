@@ -99,14 +99,11 @@ extension Product {
         self.name = name
     }
 
-    public static let iOS = Product(579020, "iOS", "OS and Development")
-    public static let iOSSDK = Product(584784, "iOS SDK", "OS and Development")
+    public static let iOS = Product(579020, "iOS + SDK", "OS and Development")
     public static let macOS = Product(137701, "macOS + SDK", "OS and Development")
     public static let macOSServer = Product(84100, "Server", "OS and Development")
-    public static let tvOS = Product(660932, "tvOS", "OS and Development")
-    public static let tvOSSDK = Product(662000, "tvOS SDK", "OS and Development")
-    public static let watchOS = Product(645251, "watchOS", "OS and Development")
-    public static let watchOSSDK = Product(645445, "watchOS SDK", "OS and Development")
+    public static let tvOS = Product(660932, "tvOS + SDK", "OS and Development")
+    public static let watchOS = Product(645251, "watchOS + SDK", "OS and Development")
     public static let DeveloperTools = Product(175326, "Developer Tools", "OS and Development")
     public static let Documentation = Product(183045, "Documentation", "OS and Development")
     public static let iTunesConnect = Product(500515, "iTunes Connect", "OS and Development")
@@ -144,7 +141,7 @@ extension Product {
     public static let Other = Product(20206, "Other", "Other")
 
     public static let All: [Product] = [
-        .iOS, .iOSSDK, .macOS, .macOSServer, .tvOS, .tvOSSDK, .watchOS, .watchOSSDK,
+        .iOS, .macOS, .macOSServer, .tvOS, .watchOS,
         .DeveloperTools, .Documentation, .iTunesConnect, .ParallaxPreviewer, .SampleCode, .TechNote,
         .iBooks, .iCloud, .iLife, .iTunes, .iWork, .Mail, .ProApps, .QuickTime, .Safari, .SafariBeta, .Siri,
         .SwiftPlaygrounds, .AppleTV, .iPad, .iPhone, .iPod, .Mac, .Printing, .OtherHardware,
