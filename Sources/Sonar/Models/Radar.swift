@@ -36,11 +36,13 @@ public struct Radar {
     public let applicationID: String?
     // Email address or username of the user experiencing the issue (iTunes Connect only)
     public let userID: String?
+    // The attachments to send with the radar
+    public let attachments: [Attachment]
 
     public init(classification: Classification, product: Product, reproducibility: Reproducibility,
                 title: String, description: String, steps: String, expected: String, actual: String,
-                configuration: String, version: String, notes: String, area: Area? = nil,
-                applicationID: String? = nil, userID: String? = nil, ID: Int? = nil)
+                configuration: String, version: String, notes: String, attachments: [Attachment],
+                area: Area? = nil, applicationID: String? = nil, userID: String? = nil, ID: Int? = nil)
     {
         self.ID = ID
         self.classification = classification
@@ -57,6 +59,7 @@ public struct Radar {
         self.area = area
         self.applicationID = applicationID
         self.userID = userID
+        self.attachments = attachments
     }
 }
 

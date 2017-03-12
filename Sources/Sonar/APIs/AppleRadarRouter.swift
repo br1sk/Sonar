@@ -48,6 +48,7 @@ enum AppleRadarRouter {
                         headers: headers, data: nil, parameters: ["_": String(timestamp)])
 
             case .Create(let radar, let CSRF):
+                let sizes = radar.attachments.map { String($0.size) } + [""]
                 let JSON: [String: Any] = [
                     "problemTitle": radar.title,
                     "configIDPop": "",
@@ -74,10 +75,10 @@ enum AppleRadarRouter {
                     "experesultsvalidate": radar.expected,
                     "actresultsvalidate": radar.actual,
                     "addnotesvalidate": radar.notes,
-                    "hiddenFileSizeNew": "",  // v2
+                    "hiddenFileSizeNew": radar.attachments.isEmpty ? "" : sizes,
                     "attachmentsValue": "\r\n\r\nAttachments:\r\n",
-                    "configurationFileCheck": "",  // v2
-                    "configurationFileFinal": "",  // v2
+                    "configurationFileCheck": "",
+                    "configurationFileFinal": "",
                     "csrftokencheck": CSRF,
                 ]
 

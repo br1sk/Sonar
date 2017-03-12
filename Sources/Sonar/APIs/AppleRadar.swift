@@ -103,7 +103,10 @@ final class AppleRadar: BugTracker {
         let createMultipart = { (data: MultipartFormData) -> Void in
             data.append(body ?? Data(), withName: "hJsonScreenVal")
 
-            // TODO: Add attachments here (needs to change Radar.toJSON too).
+            for attachment in radar.attachments {
+                data.append(attachment.data, withName: "fileupload", fileName: attachment.filename,
+                            mimeType: attachment.mimeType)
+            }
         }
 
         self.manager
