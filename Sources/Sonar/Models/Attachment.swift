@@ -1,4 +1,5 @@
 import CoreServices
+import Foundation
 
 public enum AttachmentError: Error {
     // Error thrown with the MIME type for the attachment is not found
