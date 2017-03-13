@@ -124,7 +124,13 @@ final class AppleRadar: BugTracker {
                         }
 
                         guard let radarID = Int(value) else {
-                            closure(.failure(SonarError(message: "Invalid Radar ID received")))
+                            if let json = jsonObject(from: value), json["isError"] as? Bool == true {
+                                let message = json["message"] as? String ?? "Unknown error occurred"
+                                closure(.failure(SonarError(message: message)))
+                            } else {
+                                closure(.failure(SonarError(message: "Invalid Radar ID received")))
+                            }
+
                             return
                         }
 
@@ -132,4 +138,12 @@ final class AppleRadar: BugTracker {
                     }
                 }
     }
+}
+
+private func jsonObject(from string: String) -> [String: Any]? {
+    guard let data = string.data(using: .utf8) else {
+        return nil
+    }
+
+    return (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any]
 }
