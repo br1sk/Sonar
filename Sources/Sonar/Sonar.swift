@@ -17,11 +17,14 @@ public class Sonar {
     /**
      Login into bug tracker. This method will use the authentication information provided by the service enum.
 
-     - parameter closure: A closure that will be called when the login is completed,
-                          on failure a `SonarError`.
+     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+     - parameter closure:          A closure that will be called when the login is completed,
+                                   on failure a `SonarError`.
     */
-    public func login(closure: @escaping (Result<Void, SonarError>) -> Void) {
-        self.tracker.login { result in
+    public func login(getTwoFactorCode: @escaping (_ closure: (_ code: String?) -> Void) -> Void,
+                      closure: @escaping (Result<Void, SonarError>) -> Void)
+    {
+        self.tracker.login(getTwoFactorCode: getTwoFactorCode) { result in
             closure(result)
             self.hold()
         }
@@ -44,12 +47,16 @@ public class Sonar {
     /**
      Similar to `create` but logs the user in first.
 
-     - parameter radar:   The radar model with the information for the ticket.
-     - parameter closure: A closure that will be called when the login is completed, on success it will
-                          contain a radar ID; on failure a `SonarError`.
+     - parameter radar:            The radar model with the information for the ticket.
+     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+     - parameter closure:          A closure that will be called when the login is completed, on success it
+                                   will contain a radar ID; on failure a `SonarError`.
     */
-    public func loginThenCreate(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
-        self.tracker.login { result in
+    public func loginThenCreate(
+        radar: Radar, getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
+        closure: @escaping (Result<Int, SonarError>) -> Void)
+    {
+        self.tracker.login(getTwoFactorCode: getTwoFactorCode) { result in
             if case let .failure(error) = result {
                 closure(.failure(error))
                 return

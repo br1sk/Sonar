@@ -9,7 +9,9 @@ and [Open Radar](https://openradar.appspot.com/) frictionless from swift.
 
 ```swift
 let openRadar = Sonar(service: .OpenRadar(token: "abcdefg"))
-openRadar.login { result in
+openRadar.login(
+    getTwoFactorCode: { _ in fatalError("OpenRadar doesn't support 2 factor" })
+{ result in
     guard case let .Success = result else {
         return
     }
@@ -25,12 +27,12 @@ let radar = Radar(
     classification: .Feature, product: .BugReporter, reproducibility: .Always,
     title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
     expected: "Radar to have a REST API available", actual: "API not provided", 
-    configuration: "N/A", version: "Any", notes: "N/A"
+    configuration: "N/A", version: "Any", notes: "N/A", attachments: []
 )
 
 let openRadar = Sonar(service: .OpenRadar(token: "abcdefg"))
 openRadar.create(radar: radar) { result in
-    print(result.value) // This is the radar ID!
+    // Check to see if the request succeeded
 }
 ```
 
@@ -41,11 +43,22 @@ let radar = Radar(
     classification: .Feature, product: .BugReporter, reproducibility: .Always,
     title: "Add REST API to Radar", description: "Add REST API to Radar", steps: "N/A",
     expected: "Radar to have a REST API available", actual: "API not provided",
-    configuration: "N/A", version: "Any", notes: "N/A"
+    configuration: "N/A", version: "Any", notes: "N/A", attachments: []
 )
 
 let appleRadar = Sonar(service: .AppleRadar(appleID: "a", password: "b"))
-appleRadar.loginThenCreate(radar: radar) { result in
-    print(result.value) // This is the radar ID!
+appleRadar.loginThenCreate(
+    radar: radar,
+    getTwoFactorCode: { closure in
+        let code = // Somehow get 2 factor auth code for user
+        closure(code)
+    })
+{ result in
+    switch result {
+    case .success(let value):
+        print(value) // This is the radar ID!
+    case .failure(let error):
+        print(error)
+    }
 }
 ```

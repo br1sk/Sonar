@@ -17,6 +17,8 @@ Apple's radar request router.
 enum AppleRadarRouter {
     case Products(CSRF: String)
     case Login(appleID: String, password: String)
+    case AuthorizeTwoFactor(code: String, scnt: String, sessionID: String)
+    case FetchCSRF
     case Create(radar: Radar, CSRF: String)
     case ViewProblem
 
@@ -28,13 +30,48 @@ enum AppleRadarRouter {
             case .ViewProblem:
                 return (path: "/problem/viewproblem", method: .get, headers: [:], data: nil, parameters: [:])
 
+            case .AuthorizeTwoFactor(let code, let scnt, let sessionID):
+                let fullURL = "https://idmsa.apple.com/appleauth/auth/verify/trusteddevice/securitycode"
+                let headers = [
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "scnt": scnt,
+                    "X-Apple-App-Id": "21",
+                    "X-Apple-ID-Session-Id": sessionID,
+                    "X-Apple-Widget-Key": "16452abf721961a1728885bef033f28e",
+                    "X-Requested-With": "XMLHttpRequest",
+                ]
+
+                let JSON: [String: Any] = [
+                    "securityCode": [
+                        "code": code,
+                    ],
+                ]
+
+                let body = try! JSONSerialization.data(withJSONObject: JSON, options: [])
+                return (path: fullURL, method: .post, headers: headers, data: body, parameters: [:])
+
+            case .FetchCSRF:
+                return (path: "/logon", method: .post, headers: [:], data: nil, parameters: [:])
+
             case .Login(let appleID, let password):
-                let fullURL = "https://idmsa.apple.com/IDMSWebAuth/authenticate"
-                let headers = ["Content-Type": "application/x-www-form-urlencoded"]
-                return (path: fullURL, method: .post, headers: headers, data: nil, parameters: [
-                    "appIdKey": kRadarAppID, "accNameLocked": "false", "rv": "3", "Env": "PROD",
-                    "appleId": appleID, "accountPassword": password
-                ])
+                let fullURL = "https://idmsa.apple.com/appleauth/auth/signin"
+                let headers = [
+                    "Accept": "application/json, text/javascript, */*; q=0.01",
+                    "Content-Type": "application/json",
+                    "X-Apple-App-Id": "21",
+                    "X-Apple-Widget-Key": "16452abf721961a1728885bef033f28e",
+                    "X-Requested-With": "XMLHttpRequest",
+                ]
+
+                let JSON: [String: Any] = [
+                    "accountName": appleID,
+                    "password": password,
+                    "rememberMe": false,
+                ]
+
+                let body = try! JSONSerialization.data(withJSONObject: JSON, options: [])
+                return (path: fullURL, method: .post, headers: headers, data: body, parameters: [:])
 
             case .Products(let CSRF):
                 let headers = [

@@ -18,10 +18,12 @@ protocol BugTracker {
     /**
      Login into bug tracker. This method will use the authentication information provided by the service enum.
 
-     - parameter closure: A closure that will be called when the login is completed,
-                          on failure a `SonarError`.
+     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+     - parameter closure:          A closure that will be called when the login is completed,
+                                   on failure a `SonarError`.
     */
-    func login(closure: @escaping (Result<Void, SonarError>) -> Void)
+    func login(getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
+               closure: @escaping (Result<Void, SonarError>) -> Void)
 
     /**
      Creates a new ticket into the bug tracker (needs authentication first).

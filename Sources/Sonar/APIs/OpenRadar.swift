@@ -14,10 +14,13 @@ class OpenRadar: BugTracker {
     /**
      Login into open radar. This is actually a NOP for now (token is saved into the session).
 
-     - parameter closure: A closure that will be called when the login is completed, on success it will
-                          contain a list of `Product`s; on failure a `SonarError`.
+     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user
+     - parameter closure:          A closure that will be called when the login is completed, on success it
+                                   will contain a list of `Product`s; on failure a `SonarError`.
     */
-    func login(closure: @escaping (Result<Void, SonarError>) -> Void) {
+    func login(getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
+               closure: @escaping (Result<Void, SonarError>) -> Void)
+    {
         closure(.success())
     }
 

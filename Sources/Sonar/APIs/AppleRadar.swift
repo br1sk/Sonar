@@ -24,37 +24,39 @@ final class AppleRadar: BugTracker {
     /**
      Login into radar by an apple ID and password.
 
-     - parameter closure: A closure that will be called when the login is completed, on success it will
-                          contain a list of `Product`s; on failure a `SonarError`.
+     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+     - parameter closure:          A closure that will be called when the login is completed, on success it
+                                   will contain a list of `Product`s; on failure a `SonarError`.
     */
-    func login(closure: @escaping (Result<Void, SonarError>) -> Void) {
+    func login(getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
+               closure: @escaping (Result<Void, SonarError>) -> Void)
+    {
         self.manager
             .request(AppleRadarRouter.Login(appleID: credentials.appleID, password: credentials.password))
             .validate()
             .responseString { [weak self] response in
-                guard case let .success(value) = response.result else {
-                    closure(.failure(SonarError.from(response)))
-                    return
-                }
-
-                if let error = value.match(pattern: "class=\"dserror\".*?>(.*?)</", group: 1) {
-                    closure(.failure(SonarError(message: error)))
-                    return
-                }
-
-                guard let CSRF = value.match(pattern: "<input.*csrftoken.*value=\"(.*)\"", group: 1) else {
-                    closure(.failure(SonarError(message: "CSRF not found. Maybe the ID is invalid?")))
-                    return
-                }
-
-                self?.CSRF = CSRF
-                self?.products { result in
-                    if case let .failure(error) = result {
-                        closure(.failure(error))
-                        return
+                if let httpResponse = response.response, httpResponse.statusCode == 409 {
+                    getTwoFactorCode { code in
+                        if let code = code {
+                            self?.handleTwoFactorChallenge(code: code, headers: httpResponse.allHeaderFields,
+                                                           closure: closure)
+                        } else {
+                            closure(.failure(SonarError(message: "No 2 factor auth code provided")))
+                        }
                     }
-
-                    closure(.success())
+                } else if case .success = response.result {
+                    self?.manager
+                        .request(AppleRadarRouter.FetchCSRF)
+                        .validate()
+                        .responseString { response in
+                            if case .success(let value) = response.result {
+                                self?.handleCSRFResponse(string: value, closure: closure)
+                            } else {
+                                closure(.failure(SonarError.from(response)))
+                            }
+                        }
+                } else {
+                    closure(.failure(SonarError.from(response)))
                 }
             }
     }
@@ -123,20 +125,75 @@ final class AppleRadar: BugTracker {
                             return
                         }
 
-                        guard let radarID = Int(value) else {
-                            if let json = jsonObject(from: value), json["isError"] as? Bool == true {
-                                let message = json["message"] as? String ?? "Unknown error occurred"
-                                closure(.failure(SonarError(message: message)))
-                            } else {
-                                closure(.failure(SonarError(message: "Invalid Radar ID received")))
-                            }
-
+                        if let radarID = Int(value) {
+                            closure(.success(radarID))
                             return
                         }
 
-                        closure(.success(radarID))
+                        if let json = jsonObject(from: value), json["isError"] as? Bool == true {
+                            let message = json["message"] as? String ?? "Unknown error occurred"
+                            closure(.failure(SonarError(message: message)))
+                        } else {
+                            closure(.failure(SonarError(message: "Invalid Radar ID received")))
+                        }
                     }
                 }
+    }
+
+    // MARK: - Private Functions
+
+    private func handleCSRFResponse(string: String, closure: @escaping (Result<Void, SonarError>) -> Void) {
+        if let error = string.match(pattern: "class=\"dserror\".*?>(.*?)</", group: 1) {
+            closure(.failure(SonarError(message: error)))
+            return
+        }
+
+        guard let CSRF = string.match(pattern: "<input.*csrftoken.*value=\"(.*)\"", group: 1) else {
+            closure(.failure(SonarError(message: "CSRF not found. Maybe the ID is invalid?")))
+            return
+        }
+
+        self.CSRF = CSRF
+        self.products { result in
+            if case let .failure(error) = result {
+                closure(.failure(error))
+                return
+            }
+
+            closure(.success())
+        }
+    }
+
+    private func handleTwoFactorChallenge(code: String, headers: [AnyHashable: Any],
+                                          closure: @escaping (Result<Void, SonarError>) -> Void)
+    {
+        guard let sessionID = headers["X-Apple-ID-Session-Id"] as? String,
+            let scnt = headers["scnt"] as? String else
+        {
+            closure(.failure(SonarError(message: "Missing Session-Id or scnt")))
+            return
+        }
+
+        self.manager
+            .request(AppleRadarRouter.AuthorizeTwoFactor(code: code, scnt: scnt, sessionID: sessionID))
+            .validate()
+            .responseString { [weak self] response in
+                guard case .success = response.result else {
+                    closure(.failure(SonarError.from(response)))
+                    return
+                }
+
+                self?.manager
+                    .request(AppleRadarRouter.FetchCSRF)
+                    .validate()
+                    .responseString { response in
+                        if case .success(let value) = response.result {
+                            self?.handleCSRFResponse(string: value, closure: closure)
+                        } else {
+                            closure(.failure(SonarError.from(response)))
+                        }
+                    }
+            }
     }
 }
 
