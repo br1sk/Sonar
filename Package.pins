@@ -1,0 +1,12 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "Alamofire",
+      "reason": null,
+      "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+      "version": "4.4.0"
+    }
+  ],
+  "version": 1
+}
