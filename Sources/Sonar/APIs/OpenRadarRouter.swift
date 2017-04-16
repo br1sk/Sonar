@@ -1,20 +1,18 @@
 import Alamofire
 import Foundation
 
-/**
-Open radar request router.
-
-- Create: The `Route` used to create a new radar.
-*/
+/// Open radar request router.
+///
+/// - create: The `Route` used to create a new radar.
 enum OpenRadarRouter {
-    case Create(radar: Radar)
+    case create(radar: Radar)
 
     fileprivate static let baseURL = URL(string: "https://openradar.appspot.com")!
 
     /// The request components including headers and parameters.
     var components: (path: String, method: Alamofire.HTTPMethod, parameters: [String: String]) {
         switch self {
-            case .Create(let radar):
+            case .create(let radar):
                 let formatter = DateFormatter()
                 formatter.dateFormat = "dd-MMM-yyyy hh:mm a"
 

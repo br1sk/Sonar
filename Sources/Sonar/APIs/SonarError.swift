@@ -1,9 +1,7 @@
 import Alamofire
 import Foundation
 
-/**
- Represents an error on the communication and/or response parsing.
-*/
+/// Represents an error on the communication and/or response parsing.
 public struct SonarError: Error {
     /// The message that represents the error condition.
     public let message: String
@@ -18,13 +16,11 @@ public struct SonarError: Error {
         self.message = message
     }
 
-    /**
-     Factory to create a `SonarError` based on a `Response`.
-
-     - parameter response: The HTTP resposne that is known to be failed.
-
-     - returns: The error representing the problem.
-    */
+    /// Factory to create a `SonarError` based on a `Response`.
+    ///
+    /// - parameter response: The HTTP resposne that is known to be failed.
+    ///
+    /// - returns: The error representing the problem.
     static func from<T>(_ response: (DataResponse<T>)) -> SonarError {
         if response.response?.statusCode == 401 {
             return .authenticationError

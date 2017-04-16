@@ -6,21 +6,19 @@ public class Sonar {
 
     public init(service: ServiceAuthentication) {
         switch service {
-            case .AppleRadar(let appleID, let password):
+            case .appleRadar(let appleID, let password):
                 self.tracker = AppleRadar(appleID: appleID, password: password)
 
-            case .OpenRadar(let token):
+            case .openRadar(let token):
                 self.tracker = OpenRadar(token: token)
         }
     }
 
-    /**
-     Login into bug tracker. This method will use the authentication information provided by the service enum.
-
-     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
-     - parameter closure:          A closure that will be called when the login is completed,
-                                   on failure a `SonarError`.
-    */
+    /// Login into bug tracker. This method will use the authentication information provided by the service enum.
+    ///
+    /// - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+    /// - parameter closure:          A closure that will be called when the login is completed,
+    ///                               on failure a `SonarError`.
     public func login(getTwoFactorCode: @escaping (_ closure: (_ code: String?) -> Void) -> Void,
                       closure: @escaping (Result<Void, SonarError>) -> Void)
     {
@@ -30,13 +28,11 @@ public class Sonar {
         }
     }
 
-    /**
-     Creates a new ticket into the bug tracker (needs authentication first).
-
-     - parameter radar:   The radar model with the information for the ticket.
-     - parameter closure: A closure that will be called when the login is completed, on success it will
-                          contain a radar ID; on failure a `SonarError`.
-    */
+    /// Creates a new ticket into the bug tracker (needs authentication first).
+    ///
+    /// - parameter radar:   The radar model with the information for the ticket.
+    /// - parameter closure: A closure that will be called when the login is completed, on success it will
+    ///                      contain a radar ID; on failure a `SonarError`.
     public func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
         self.tracker.create(radar: radar) { result in
             closure(result)
@@ -44,14 +40,12 @@ public class Sonar {
         }
     }
 
-    /**
-     Similar to `create` but logs the user in first.
-
-     - parameter radar:            The radar model with the information for the ticket.
-     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
-     - parameter closure:          A closure that will be called when the login is completed, on success it
-                                   will contain a radar ID; on failure a `SonarError`.
-    */
+    /// Similar to `create` but logs the user in first.
+    ///
+    /// - parameter radar:            The radar model with the information for the ticket.
+    /// - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+    /// - parameter closure:          A closure that will be called when the login is completed, on success it
+    ///                               will contain a radar ID; on failure a `SonarError`.
     public func loginThenCreate(
         radar: Radar, getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
         closure: @escaping (Result<Int, SonarError>) -> Void)

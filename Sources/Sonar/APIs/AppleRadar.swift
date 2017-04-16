@@ -6,10 +6,8 @@ final class AppleRadar: BugTracker {
     private let manager: Alamofire.SessionManager
     private var CSRF: String?
 
-    /**
-     - parameter appleID:  Username to be used on `bugreport.apple.com` authentication.
-     - parameter password: Password to be used on `bugreport.apple.com` authentication.
-    */
+    /// - parameter appleID:  Username to be used on `bugreport.apple.com` authentication.
+    /// - parameter password: Password to be used on `bugreport.apple.com` authentication.
     init(appleID: String, password: String) {
         self.credentials = (appleID: appleID, password: password)
 
@@ -21,18 +19,16 @@ final class AppleRadar: BugTracker {
         self.manager = Alamofire.SessionManager(configuration: configuration)
     }
 
-    /**
-     Login into radar by an apple ID and password.
-
-     - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
-     - parameter closure:          A closure that will be called when the login is completed, on success it
-                                   will contain a list of `Product`s; on failure a `SonarError`.
-    */
+    /// Login into radar by an apple ID and password.
+    ///
+    /// - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
+    /// - parameter closure:          A closure that will be called when the login is completed, on success it
+    ///                               will contain a list of `Product`s; on failure a `SonarError`.
     func login(getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
                closure: @escaping (Result<Void, SonarError>) -> Void)
     {
         self.manager
-            .request(AppleRadarRouter.Login(appleID: credentials.appleID, password: credentials.password))
+            .request(AppleRadarRouter.login(appleID: credentials.appleID, password: credentials.password))
             .validate()
             .responseString { [weak self] response in
                 if let httpResponse = response.response, httpResponse.statusCode == 409 {
@@ -46,7 +42,7 @@ final class AppleRadar: BugTracker {
                     }
                 } else if case .success = response.result {
                     self?.manager
-                        .request(AppleRadarRouter.FetchCSRF)
+                        .request(AppleRadarRouter.fetchCSRF)
                         .validate()
                         .responseString { response in
                             if case .success(let value) = response.result {
@@ -61,12 +57,10 @@ final class AppleRadar: BugTracker {
             }
     }
 
-    /**
-     Fetches the list of available products (needs authentication first).
-
-     - parameter closure:  A closure that will be called when the login is completed, on success it will
-                           contain a list of `Product`s; on failure a `SonarError`.
-    */
+    /// Fetches the list of available products (needs authentication first).
+    ///
+    /// - parameter closure:  A closure that will be called when the login is completed, on success it will
+    ///                       contain a list of `Product`s; on failure a `SonarError`.
     func products(closure: @escaping (Result<[Product], SonarError>) -> Void) {
         guard let CSRF = self.CSRF else {
             closure(.failure(SonarError(message: "User is not logged in")))
@@ -74,7 +68,7 @@ final class AppleRadar: BugTracker {
         }
 
         self.manager
-            .request(AppleRadarRouter.Products(CSRF: CSRF))
+            .request(AppleRadarRouter.products(CSRF: CSRF))
             .validate()
             .responseJSON { response in
                 guard case let .success(value) = response.result else {
@@ -87,20 +81,18 @@ final class AppleRadar: BugTracker {
             }
     }
 
-    /**
-     Creates a new ticket into apple's radar (needs authentication first).
-
-     - parameter radar:   The radar model with the information for the ticket.
-     - parameter closure: A closure that will be called when the login is completed, on success it will
-                          contain a radar ID; on failure a `SonarError`.
-    */
+    /// Creates a new ticket into apple's radar (needs authentication first).
+    ///
+    /// - parameter radar:   The radar model with the information for the ticket.
+    /// - parameter closure: A closure that will be called when the login is completed, on success it will
+    ///                      contain a radar ID; on failure a `SonarError`.
     func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
         guard let CSRF = self.CSRF else {
             closure(.failure(SonarError(message: "User is not logged in")))
             return
         }
 
-        let route = AppleRadarRouter.Create(radar: radar, CSRF: CSRF)
+        let route = AppleRadarRouter.create(radar: radar, CSRF: CSRF)
         let (_, method, headers, body, _) = route.components
         let createMultipart = { (data: MultipartFormData) -> Void in
             data.append(body ?? Data(), withName: "hJsonScreenVal")
@@ -175,7 +167,7 @@ final class AppleRadar: BugTracker {
         }
 
         self.manager
-            .request(AppleRadarRouter.AuthorizeTwoFactor(code: code, scnt: scnt, sessionID: sessionID))
+            .request(AppleRadarRouter.authorizeTwoFactor(code: code, scnt: scnt, sessionID: sessionID))
             .validate()
             .responseString { [weak self] response in
                 guard case .success = response.result else {
@@ -184,7 +176,7 @@ final class AppleRadar: BugTracker {
                 }
 
                 self?.manager
-                    .request(AppleRadarRouter.FetchCSRF)
+                    .request(AppleRadarRouter.fetchCSRF)
                     .validate()
                     .responseString { response in
                         if case .success(let value) = response.result {
