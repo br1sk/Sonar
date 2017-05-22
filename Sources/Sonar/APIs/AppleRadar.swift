@@ -4,7 +4,7 @@ import Foundation
 final class AppleRadar: BugTracker {
     private let credentials: (appleID: String, password: String)
     private let manager: Alamofire.SessionManager
-    private var CSRF: String?
+    private var token: String?
 
     /// - parameter appleID:  Username to be used on `bugreport.apple.com` authentication.
     /// - parameter password: Password to be used on `bugreport.apple.com` authentication.
@@ -28,7 +28,8 @@ final class AppleRadar: BugTracker {
                closure: @escaping (Result<Void, SonarError>) -> Void)
     {
         self.manager
-            .request(AppleRadarRouter.login(appleID: credentials.appleID, password: credentials.password))
+            .request(AppleRadarRouter.accountInfo(appleID: credentials.appleID,
+                                                  password: credentials.password))
             .validate()
             .responseString { [weak self] response in
                 if let httpResponse = response.response, httpResponse.statusCode == 409 {
@@ -41,43 +42,10 @@ final class AppleRadar: BugTracker {
                         }
                     }
                 } else if case .success = response.result {
-                    self?.manager
-                        .request(AppleRadarRouter.fetchCSRF)
-                        .validate()
-                        .responseString { response in
-                            if case .success(let value) = response.result {
-                                self?.handleCSRFResponse(string: value, closure: closure)
-                            } else {
-                                closure(.failure(SonarError.from(response)))
-                            }
-                        }
+                    self?.fetchAccessToken(closure: closure)
                 } else {
                     closure(.failure(SonarError.from(response)))
                 }
-            }
-    }
-
-    /// Fetches the list of available products (needs authentication first).
-    ///
-    /// - parameter closure:  A closure that will be called when the login is completed, on success it will
-    ///                       contain a list of `Product`s; on failure a `SonarError`.
-    func products(closure: @escaping (Result<[Product], SonarError>) -> Void) {
-        guard let CSRF = self.CSRF else {
-            closure(.failure(SonarError(message: "User is not logged in")))
-            return
-        }
-
-        self.manager
-            .request(AppleRadarRouter.products(CSRF: CSRF))
-            .validate()
-            .responseJSON { response in
-                guard case let .success(value) = response.result else {
-                    closure(.failure(SonarError.from(response)))
-                    return
-                }
-
-                let products = (value as? [NSDictionary])?.flatMap(Product.init) ?? []
-                closure(.success(products))
             }
     }
 
@@ -87,12 +55,12 @@ final class AppleRadar: BugTracker {
     /// - parameter closure: A closure that will be called when the login is completed, on success it will
     ///                      contain a radar ID; on failure a `SonarError`.
     func create(radar: Radar, closure: @escaping (Result<Int, SonarError>) -> Void) {
-        guard let CSRF = self.CSRF else {
+        guard let token = self.token else {
             closure(.failure(SonarError(message: "User is not logged in")))
             return
         }
 
-        let route = AppleRadarRouter.create(radar: radar, CSRF: CSRF)
+        let route = AppleRadarRouter.create(radar: radar, token: token)
         let (_, method, headers, body, _) = route.components
         let createMultipart = { (data: MultipartFormData) -> Void in
             data.append(body ?? Data(), withName: "hJsonScreenVal")
@@ -134,28 +102,6 @@ final class AppleRadar: BugTracker {
 
     // MARK: - Private Functions
 
-    private func handleCSRFResponse(string: String, closure: @escaping (Result<Void, SonarError>) -> Void) {
-        if let error = string.match(pattern: "class=\"dserror\".*?>(.*?)</", group: 1) {
-            closure(.failure(SonarError(message: error)))
-            return
-        }
-
-        guard let CSRF = string.match(pattern: "<input.*csrftoken.*value=\"(.*)\"", group: 1) else {
-            closure(.failure(SonarError(message: "CSRF not found. Maybe the ID is invalid?")))
-            return
-        }
-
-        self.CSRF = CSRF
-        self.products { result in
-            if case let .failure(error) = result {
-                closure(.failure(error))
-                return
-            }
-
-            closure(.success())
-        }
-    }
-
     private func handleTwoFactorChallenge(code: String, headers: [AnyHashable: Any],
                                           closure: @escaping (Result<Void, SonarError>) -> Void)
     {
@@ -176,16 +122,37 @@ final class AppleRadar: BugTracker {
                 }
 
                 self?.manager
-                    .request(AppleRadarRouter.fetchCSRF)
+                    .request(AppleRadarRouter.sessionID)
                     .validate()
-                    .responseString { response in
-                        if case .success(let value) = response.result {
-                            self?.handleCSRFResponse(string: value, closure: closure)
+                    .responseString { [weak self] response in
+                        if case .success = response.result {
+                            self?.fetchAccessToken(closure: closure)
                         } else {
                             closure(.failure(SonarError.from(response)))
                         }
                     }
             }
+    }
+
+    private func fetchAccessToken(closure: @escaping (Result<Void, SonarError>) -> Void) {
+        self.manager
+            .request(AppleRadarRouter.sessionID)
+            .validate().response { [weak self] _ in
+                self?.manager
+                    .request(AppleRadarRouter.accessToken)
+                    .validate()
+                    .responseJSON { [weak self] response in
+                        if case .success(let value) = response.result,
+                            let dictionary = value as? NSDictionary,
+                            let token = dictionary["accessToken"] as? String
+                        {
+                            self?.token = token
+                            closure(.success())
+                        } else {
+                            closure(.failure(SonarError.from(response)))
+                        }
+                    }
+        }
     }
 }
 

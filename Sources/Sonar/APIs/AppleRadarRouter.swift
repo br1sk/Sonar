@@ -1,25 +1,23 @@
 import Alamofire
 import Foundation
 
-private let kRadarAppID = "77e2a60d4bdfa6b7311c854a56505800be3c24e3a27a670098ff61b69fc5214b"
-
 typealias Components = (path: String, method: HTTPMethod, headers: [String: String],
                         data: Data?, parameters: [String: String])
 
 /// Apple's radar request router.
 ///
-/// - products:           The `Route` used to retrieve all available products.
-/// - login:              The `Route` used to login an username/password pair.
+/// - accessToken:        Fetch the access token to be sent in the `Radar-Authentication` header
+/// - accountInfo:        Fetch the `myacinfo` cookie based on an apple ID and password
 /// - authorizeTwoFactor: The `Route` used to login with two factor auth.
-/// - fetchCSRF:          The `Route` used to get the CSRF token after logging in with two factor auth.
 /// - create:             The `Route` used to create a new radar.
+/// - sessionID:          Fetch the `JSESSIONID` cookie using the previously set `myacinfo` cookie
 /// - viewProblem:        The main apple's radar page.
 enum AppleRadarRouter {
-    case products(CSRF: String)
-    case login(appleID: String, password: String)
+    case accountInfo(appleID: String, password: String)
     case authorizeTwoFactor(code: String, scnt: String, sessionID: String)
-    case fetchCSRF
-    case create(radar: Radar, CSRF: String)
+    case accessToken
+    case create(radar: Radar, token: String)
+    case sessionID
     case viewProblem
 
     fileprivate static let baseURL = URL(string: "https://bugreport.apple.com")!
@@ -51,10 +49,7 @@ enum AppleRadarRouter {
                 let body = try! JSONSerialization.data(withJSONObject: JSON, options: [])
                 return (path: fullURL, method: .post, headers: headers, data: body, parameters: [:])
 
-            case .fetchCSRF:
-                return (path: "/logon", method: .post, headers: [:], data: nil, parameters: [:])
-
-            case .login(let appleID, let password):
+            case .accountInfo(let appleID, let password):
                 let fullURL = "https://idmsa.apple.com/appleauth/auth/signin"
                 let headers = [
                     "Accept": "application/json, text/javascript, */*; q=0.01",
@@ -73,18 +68,15 @@ enum AppleRadarRouter {
                 let body = try! JSONSerialization.data(withJSONObject: JSON, options: [])
                 return (path: fullURL, method: .post, headers: headers, data: body, parameters: [:])
 
-            case .products(let CSRF):
-                let headers = [
-                    "X-Requested-With": "XMLHttpRequest",
-                    "Accept": "application/json, text/javascript, */*; q=0.01",
-                    "csrftokencheck": CSRF,
-                ]
+            case .sessionID:
+                return (path: "/", method: .get, headers: [:], data: nil, parameters: [:])
 
-                let timestamp = Int(NSDate().timeIntervalSince1970 * 100)
-                return (path: "/developer/problem/getProductFullList", method: .get,
-                        headers: headers, data: nil, parameters: ["_": String(timestamp)])
+            case .accessToken:
+                let headers = ["Accept": "application/json, text/plain, */*"]
+                return (path: "/developerUISignon", method: .get, headers: headers, data: nil,
+                        parameters: [:])
 
-            case .create(let radar, let CSRF):
+            case .create(let radar, let token):
                 let sizes = radar.attachments.map { String($0.size) } + [""]
                 let JSON: [String: Any] = [
                     "problemTitle": radar.title,
@@ -116,12 +108,14 @@ enum AppleRadarRouter {
                     "attachmentsValue": "\r\n\r\nAttachments:\r\n",
                     "configurationFileCheck": "",
                     "configurationFileFinal": "",
-                    "csrftokencheck": CSRF,
                 ]
 
                 let body = try! JSONSerialization.data(withJSONObject: JSON, options: [])
-                let headers = ["Referer": AppleRadarRouter.viewProblem.url.absoluteString]
-                return (path: "/developer/problem/createNewDevUIProblem", method: .post, headers: headers,
+                let headers = [
+                    "Referer": AppleRadarRouter.viewProblem.url.absoluteString,
+                    "Radar-Authentication": token,
+                ]
+                return (path: "/developerUI/problem/createNewDevUIProblem", method: .post, headers: headers,
                         data: body, parameters: [:])
         }
     }

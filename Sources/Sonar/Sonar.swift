@@ -19,7 +19,7 @@ public class Sonar {
     /// - parameter getTwoFactorCode: A closure to retrieve a two factor auth code from the user.
     /// - parameter closure:          A closure that will be called when the login is completed,
     ///                               on failure a `SonarError`.
-    public func login(getTwoFactorCode: @escaping (_ closure: (_ code: String?) -> Void) -> Void,
+    public func login(getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
                       closure: @escaping (Result<Void, SonarError>) -> Void)
     {
         self.tracker.login(getTwoFactorCode: getTwoFactorCode) { result in
