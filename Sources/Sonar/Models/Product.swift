@@ -7,18 +7,4 @@ public struct Product {
     public let category: String
     /// The name of the product; useful to use as display name (e.g. 'iOS').
     public let name: String
-
-    init?(dictionary: NSDictionary) {
-        guard
-            let category = dictionary["categoryName"] as? String,
-            let appleIdentifier = dictionary["componentID"] as? Int,
-            let name = dictionary["compNameForWeb"] as? String
-        else {
-            return nil
-        }
-
-        self.category = category
-        self.appleIdentifier = appleIdentifier
-        self.name = name
-    }
 }
