@@ -44,6 +44,9 @@ public struct Radar {
                 configuration: String, version: String, notes: String, attachments: [Attachment],
                 area: Area? = nil, applicationID: String? = nil, userID: String? = nil, ID: Int? = nil)
     {
+       assert(area == nil || Area.areas(for: product).contains(where: { $0 == area! }),
+              "The area passed must be be part of the product's areas")
+
         self.ID = ID
         self.classification = classification
         self.product = product
