@@ -97,7 +97,7 @@ enum AppleRadarRouter {
                         "compName": radar.product.name,
                     ],
                     "draftID": "",
-                    "draftFlag": "0",
+                    "draftFlag": "",
                     "versionBuild": radar.version,
                     "desctextvalidate": radar.body,
                     "stepstoreprvalidate": radar.steps,
