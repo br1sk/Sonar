@@ -19,6 +19,7 @@ enum AppleRadarRouter {
     case create(radar: Radar, token: String)
     case sessionID
     case viewProblem
+    case uploadAttachment(radarID: Int, attachment: Attachment, token: String)
 
     fileprivate static let baseURL = URL(string: "https://bugreport.apple.com")!
 
@@ -77,7 +78,6 @@ enum AppleRadarRouter {
                         parameters: [:])
 
             case .create(let radar, let token):
-                let sizes = radar.attachments.map { String($0.size) } + [""]
                 let JSON: [String: Any] = [
                     "problemTitle": radar.title,
                     "configIDPop": "",
@@ -104,7 +104,7 @@ enum AppleRadarRouter {
                     "experesultsvalidate": radar.expected,
                     "actresultsvalidate": radar.actual,
                     "addnotesvalidate": radar.notes,
-                    "hiddenFileSizeNew": radar.attachments.isEmpty ? "" : sizes,
+                    "hiddenFileSizeNew": "",
                     "attachmentsValue": "\r\n\r\nAttachments:\r\n",
                     "configurationFileCheck": "",
                     "configurationFileFinal": "",
@@ -117,6 +117,18 @@ enum AppleRadarRouter {
                 ]
                 return (path: "/developerUI/problem/createNewDevUIProblem", method: .post, headers: headers,
                         data: body, parameters: [:])
+
+            case .uploadAttachment(let radarID, let attachment, let token):
+                let escapedName = attachment.filename
+                    .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? attachment.filename
+
+                let headers = [
+                    "Referer": AppleRadarRouter.viewProblem.url.absoluteString,
+                    "Radar-Authentication": token,
+                ]
+
+                return (path: "/developerUI/problems/\(radarID)/attachments/\(escapedName)", method: .put,
+                        headers: headers, data: nil, parameters: [:])
         }
     }
 }

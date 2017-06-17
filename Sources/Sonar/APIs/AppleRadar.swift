@@ -64,11 +64,6 @@ final class AppleRadar: BugTracker {
         let (_, method, headers, body, _) = route.components
         let createMultipart = { (data: MultipartFormData) -> Void in
             data.append(body ?? Data(), withName: "hJsonScreenVal")
-
-            for attachment in radar.attachments {
-                data.append(attachment.data, withName: "fileupload", fileName: attachment.filename,
-                            mimeType: attachment.mimeType)
-            }
         }
 
         self.manager
@@ -86,8 +81,8 @@ final class AppleRadar: BugTracker {
                         }
 
                         if let radarID = Int(value) {
-                            closure(.success(radarID))
-                            return
+                            return self.uploadAttachments(radarID: radarID, attachments: radar.attachments,
+                                                          token: token, closure: closure)
                         }
 
                         if let json = jsonObject(from: value), json["isError"] as? Bool == true {
@@ -137,7 +132,8 @@ final class AppleRadar: BugTracker {
     private func fetchAccessToken(closure: @escaping (Result<Void, SonarError>) -> Void) {
         self.manager
             .request(AppleRadarRouter.sessionID)
-            .validate().response { [weak self] _ in
+            .validate()
+            .response { [weak self] _ in
                 self?.manager
                     .request(AppleRadarRouter.accessToken)
                     .validate()
@@ -152,6 +148,44 @@ final class AppleRadar: BugTracker {
                             closure(.failure(SonarError.from(response)))
                         }
                     }
+            }
+    }
+
+    private func uploadAttachments(radarID: Int, attachments: [Attachment], token: String,
+                                   closure: @escaping (Result<Int, SonarError>) -> Void)
+    {
+        if attachments.isEmpty {
+            return closure(.success(radarID))
+        }
+
+        var successful = true
+        let group = DispatchGroup()
+
+        for attachment in attachments {
+            group.enter()
+
+            let route = AppleRadarRouter.uploadAttachment(radarID: radarID, attachment: attachment,
+                                                          token: token)
+            assert(route.components.data == nil, "The data is uploaded manually, not from the route")
+
+            self.manager
+                .upload(attachment.data, with: route)
+                .validate(statusCode: [201])
+                .response { result in
+                    defer {
+                        group.leave()
+                    }
+
+                    successful = successful && result.response?.statusCode == 201
+                }
+        }
+
+        group.notify(queue: .main) {
+            if successful {
+                closure(.success(radarID))
+            } else {
+                closure(.failure(SonarError(message: "Failed to upload attachments")))
+            }
         }
     }
 }
