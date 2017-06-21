@@ -1,8 +1,8 @@
 package:
-	swift build
+	swift build -Xswiftc -warnings-as-errors
 
 example:
-	cd Example && swift build
+	cd Example && swift build -Xswiftc -warnings-as-errors
 
 ci:
 ifndef ACTION
