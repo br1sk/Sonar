@@ -11,6 +11,9 @@ public class Sonar {
 
             case .openRadar(let token):
                 self.tracker = OpenRadar(token: token)
+
+            case .twitter:
+                self.tracker = Twitter()
         }
     }
 

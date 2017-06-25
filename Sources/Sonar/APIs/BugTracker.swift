@@ -4,9 +4,11 @@ import Alamofire
 ///
 /// - appleRadar: Apple's radar system. Authenticated by appleID / password.
 /// - openRadar:  Open radar system. Authenticated by a non expiring token.
+/// - twitter:    Tweet about a radar.
 public enum ServiceAuthentication {
     case appleRadar(appleID: String, password: String)
     case openRadar(token: String)
+    case twitter
 }
 
 /// This protocol represents a bug tracker (such as Apple's radar or Open Radar).

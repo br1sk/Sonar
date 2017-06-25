@@ -39,13 +39,16 @@ public struct Radar {
     // The attachments to send with the radar
     public let attachments: [Attachment]
 
+    /// The format used to provide a short (140 character) description
+    public static var shortDescriptionFormat: String?
+
     public init(classification: Classification, product: Product, reproducibility: Reproducibility,
                 title: String, description: String, steps: String, expected: String, actual: String,
                 configuration: String, version: String, notes: String, attachments: [Attachment],
                 area: Area? = nil, applicationID: String? = nil, userID: String? = nil, ID: Int? = nil)
     {
-       assert(area == nil || Area.areas(for: product).contains(where: { $0 == area! }),
-              "The area passed must be be part of the product's areas")
+        assert(area == nil || Area.areas(for: product).contains(where: { $0 == area! }),
+               "The area passed must be be part of the product's areas")
 
         self.ID = ID
         self.classification = classification
@@ -96,5 +99,25 @@ extension Radar {
             .map { "\($0):\r\n\($1)" }
             .joined(separator: "\r\n\r\n")
         return body + "\r\n\r\n"
+    }
+
+    /// A short description of the Radar.
+    var shortDescription: String {
+        guard let format = type(of: self).shortDescriptionFormat else {
+            return ""
+        }
+
+        let replacements = [
+            "{rdarURL}": "rdar://\(self.ID!)",
+            "{title}": self.title,
+            "{openradar}": OpenRadarRouter.baseURL.appendingPathComponent(String(self.ID!)).absoluteString,
+        ]
+
+        var description = format
+        for (placeholder, value) in replacements {
+            description = description.replacingOccurrences(of: placeholder, with: value)
+        }
+
+        return description
     }
 }

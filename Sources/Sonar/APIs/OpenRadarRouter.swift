@@ -7,7 +7,8 @@ import Foundation
 enum OpenRadarRouter {
     case create(radar: Radar)
 
-    fileprivate static let baseURL = URL(string: "https://openradar.appspot.com")!
+    /// The base URL for all radars posted to Open Radar
+    static let baseURL = URL(string: "https://openradar.appspot.com")!
 
     /// The request components including headers and parameters.
     var components: (path: String, method: Alamofire.HTTPMethod, parameters: [String: String]) {
