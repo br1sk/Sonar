@@ -1,5 +1,9 @@
-import CoreServices
 import Foundation
+#if os(OSX)
+import CoreServices
+#else
+import MobileCoreServices
+#endif
 
 public enum AttachmentError: Error {
     // Error thrown with the MIME type for the attachment is not found
