@@ -15,6 +15,7 @@ enum OpenRadarRouter {
             case .create(let radar):
                 let formatter = DateFormatter()
                 formatter.dateFormat = "dd-MMM-yyyy hh:mm a"
+                formatter.locale = Locale(identifier: "en_US_POSIX")
 
                 return (path: "/api/radars/add", method: .post, parameters: [
                     "classification": radar.classification.name,
