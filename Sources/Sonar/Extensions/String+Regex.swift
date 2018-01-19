@@ -11,7 +11,7 @@ extension String {
     func match(pattern: String, group: Int, options: NSRegularExpression.Options = []) -> String? {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: options)
-            let range = NSRange(location: 0, length: self.characters.count)
+            let range = NSRange(location: 0, length: self.count)
 
             guard let match = regex.firstMatch(in: self, options: [], range: range) else {
                 return nil
@@ -21,13 +21,11 @@ extension String {
                 return nil
             }
 
-            let matchRange = match.rangeAt(group)
+            let matchRange = match.range(at: group)
             let startRange = self.index(self.startIndex, offsetBy: matchRange.location)
             let endRange = self.index(startRange, offsetBy: matchRange.length)
 
-            return self
-                .substring(with: startRange ..< endRange)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
+            return self[startRange ..< endRange].trimmingCharacters(in: .whitespacesAndNewlines)
         } catch {
             return nil
         }

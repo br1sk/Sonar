@@ -19,7 +19,7 @@ class OpenRadar: BugTracker {
     func login(getTwoFactorCode: @escaping (_ closure: @escaping (_ code: String?) -> Void) -> Void,
                closure: @escaping (Result<Void, SonarError>) -> Void)
     {
-        closure(.success())
+        closure(.success(()))
     }
 
     /// Creates a new ticket into open radar (needs authentication first).

@@ -143,7 +143,7 @@ final class AppleRadar: BugTracker {
                             let token = dictionary["accessToken"] as? String
                         {
                             self?.token = token
-                            closure(.success())
+                            closure(.success(()))
                         } else {
                             closure(.failure(SonarError.from(response)))
                         }
