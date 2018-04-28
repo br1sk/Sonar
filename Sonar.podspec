@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "9.0"
   s.osx.deployment_target = "10.11"
   s.source                = { :git => "https://github.com/br1sk/Sonar.git" }
-  s.source_files          = "Sources/**/*.swift"
+  s.source_files          = "Sources/Sonar/**/*.swift"
   s.requires_arc          = true
-  s.dependency              "Alamofire", "~> 4.4.0"
+  s.dependency              "Alamofire", "~> 4.7.2"
 end

@@ -24,9 +24,14 @@ public struct Attachment: Equatable {
     }
 
     public init(url: URL) throws {
-        self.filename = url.lastPathComponent
-        self.mimeType = try getMimeType(for: url.pathExtension)
-        self.data = try Data(contentsOf: url)
+        self.init(filename: url.lastPathComponent, mimeType: try getMimeType(for: url.pathExtension),
+                  data: try Data(contentsOf: url))
+    }
+
+    public init(filename: String, mimeType: String, data: Data) {
+        self.filename = filename
+        self.mimeType = mimeType
+        self.data = data
     }
 }
 
