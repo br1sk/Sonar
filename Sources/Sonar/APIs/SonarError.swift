@@ -10,7 +10,7 @@ public struct SonarError: Error {
     static let unknownError = SonarError(message: "Unknown error")
 
     /// Used when the token expires.
-    static let authenticationError = SonarError(message: "Unauthorize")
+    static let authenticationError = SonarError(message: "Unauthorized, perhaps you have the wrong password")
 
     init(message: String) {
         self.message = message
