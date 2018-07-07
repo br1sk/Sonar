@@ -1,6 +1,8 @@
 import Alamofire
 import Foundation
 
+private let kRadarDowntimeURL = URL(string: "http://static.ips.apple.com/radar/web/downtime/index.html")
+
 final class AppleRadar: BugTracker {
     private let credentials: (appleID: String, password: String)
     private let manager: Alamofire.SessionManager
@@ -144,6 +146,8 @@ final class AppleRadar: BugTracker {
                         {
                             self?.token = token
                             closure(.success(()))
+                        } else if response.response?.url == kRadarDowntimeURL {
+                            closure(.failure(SonarError(message: "Radar appears to be down")))
                         } else {
                             closure(.failure(SonarError.from(response)))
                         }
