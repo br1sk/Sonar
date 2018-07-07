@@ -127,7 +127,7 @@ enum AppleRadarRouter {
                     "Radar-Authentication": token,
                 ]
 
-                return (path: "/developerUI/problems/\(radarID)/attachments/\(escapedName)", method: .put,
+                return (path: "/problems/\(radarID)/attachments/\(escapedName)", method: .put,
                         headers: headers, data: nil, parameters: [:])
         }
     }
