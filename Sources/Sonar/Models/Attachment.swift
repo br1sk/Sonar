@@ -40,11 +40,16 @@ public func == (lhs: Attachment, rhs: Attachment) -> Bool {
 }
 
 private func getMimeType(for fileExtension: String) throws -> String {
-    if let identifier = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-                                                              fileExtension as CFString, nil),
-        let mimeType = UTTypeCopyPreferredTagWithClass(identifier.takeRetainedValue(), kUTTagClassMIMEType)
+    guard let identifier = UTTypeCreatePreferredIdentifierForTag(
+        kUTTagClassFilenameExtension, fileExtension as CFString, nil)?.takeRetainedValue() else
     {
+        throw AttachmentError.invalidMimeType(fileExtension: fileExtension)
+    }
+
+    if let mimeType = UTTypeCopyPreferredTagWithClass(identifier, kUTTagClassMIMEType) {
         return mimeType.takeRetainedValue() as String
+    } else if UTTypeConformsTo(identifier, kUTTypePlainText) {
+        return "text/plain"
     }
 
     throw AttachmentError.invalidMimeType(fileExtension: fileExtension)
