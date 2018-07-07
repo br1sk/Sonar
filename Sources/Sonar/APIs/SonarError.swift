@@ -12,6 +12,10 @@ public struct SonarError: Error {
     /// Used when the token expires.
     static let authenticationError = SonarError(message: "Unauthorized, perhaps you have the wrong password")
 
+    /// Use when a 412 is received. This happens when you haven't accepted a new agreement
+    static let preconditionError = SonarError(
+        message: "Precondition failed, try logging in on the web to validate your account")
+
     init(message: String) {
         self.message = message
     }
@@ -22,8 +26,13 @@ public struct SonarError: Error {
     ///
     /// - returns: The error representing the problem.
     static func from<T>(_ response: DataResponse<T>) -> SonarError {
-        if response.response?.statusCode == 401 {
+        switch response.response?.statusCode {
+        case 401:
             return .authenticationError
+        case 412:
+			return .preconditionError
+        default:
+            break
         }
 
         switch response.result {
