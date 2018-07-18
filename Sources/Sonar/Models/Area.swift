@@ -1,4 +1,9 @@
-public struct Area: Equatable {
+public struct Area: Equatable, Decodable {
+    enum CodingKeys: String, CodingKey {
+        case appleIdentifier = "id"
+        case name
+    }
+
     /// Internal apple's identifier
     public let appleIdentifier: Int
 
@@ -12,5 +17,10 @@ public struct Area: Equatable {
 
     public static func == (lhs: Area, rhs: Area) -> Bool {
         return lhs.appleIdentifier == rhs.appleIdentifier && lhs.name == rhs.name
+    }
+
+    init(_ appleIdentifier: Int, _ name: String) {
+        self.appleIdentifier = appleIdentifier
+        self.name = name
     }
 }

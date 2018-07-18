@@ -20,6 +20,7 @@ enum AppleRadarRouter {
     case sessionID
     case viewProblem
     case uploadAttachment(radarID: Int, attachment: Attachment, token: String)
+    case getProductsAndAreas(token: String)
 
     fileprivate static let baseURL = URL(string: "https://bugreport.apple.com")!
 
@@ -129,6 +130,14 @@ enum AppleRadarRouter {
 
                 return (path: "/problems/\(radarID)/attachments/\(escapedName)", method: .put,
                         headers: headers, data: nil, parameters: [:])
+
+            case .getProductsAndAreas(let token):
+                let headers = [
+                    "Referer": AppleRadarRouter.viewProblem.url.absoluteString,
+                    "Radar-Authentication": token,
+                ]
+
+                return (path: "/developerUI/problem/getProductAreaList", method: .get, headers: headers, data: nil, parameters: [:])
         }
     }
 }

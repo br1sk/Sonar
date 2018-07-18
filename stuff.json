@@ -1,0 +1,1487 @@
+[
+    {
+        "areas": [
+            {
+                "id": 213,
+                "isActive": "1",
+                "name": "Accessibility"
+            },
+            {
+                "id": 214,
+                "isActive": "1",
+                "name": "Airplay"
+            },
+            {
+                "id": 215,
+                "isActive": "1",
+                "name": "APNS"
+            },
+            {
+                "id": 216,
+                "isActive": "1",
+                "name": "App Sandbox"
+            },
+            {
+                "id": 217,
+                "isActive": "1",
+                "name": "App Store"
+            },
+            {
+                "id": 218,
+                "isActive": "1",
+                "name": "AppKit"
+            },
+            {
+                "id": 219,
+                "isActive": "1",
+                "name": "ARKit"
+            },
+            {
+                "id": 220,
+                "isActive": "1",
+                "name": "Automation"
+            },
+            {
+                "id": 221,
+                "isActive": "1",
+                "name": "Battery"
+            },
+            {
+                "id": 222,
+                "isActive": "1",
+                "name": "Bluetooth"
+            },
+            {
+                "id": 223,
+                "isActive": "1",
+                "name": "Calendar"
+            },
+            {
+                "id": 224,
+                "isActive": "1",
+                "name": "Contacts"
+            },
+            {
+                "id": 225,
+                "isActive": "1",
+                "name": "Core Graphics"
+            },
+            {
+                "id": 226,
+                "isActive": "1",
+                "name": "Core NFC"
+            },
+            {
+                "id": 227,
+                "isActive": "1",
+                "name": "CoreML"
+            },
+            {
+                "id": 228,
+                "isActive": "1",
+                "name": "Developer Web Site"
+            },
+            {
+                "id": 229,
+                "isActive": "1",
+                "name": "Disk Utility"
+            },
+            {
+                "id": 230,
+                "isActive": "1",
+                "name": "Dock"
+            },
+            {
+                "id": 231,
+                "isActive": "1",
+                "name": "Documentation"
+            },
+            {
+                "id": 232,
+                "isActive": "1",
+                "name": "FaceTime"
+            },
+            {
+                "id": 233,
+                "isActive": "1",
+                "name": "Final Cut Pro"
+            },
+            {
+                "id": 234,
+                "isActive": "1",
+                "name": "Finder"
+            },
+            {
+                "id": 235,
+                "isActive": "1",
+                "name": "Foundation"
+            },
+            {
+                "id": 236,
+                "isActive": "1",
+                "name": "Graphics & Imaging"
+            },
+            {
+                "id": 237,
+                "isActive": "1",
+                "name": "iBook / Author"
+            },
+            {
+                "id": 238,
+                "isActive": "1",
+                "name": "iCloud / CloudKit"
+            },
+            {
+                "id": 239,
+                "isActive": "1",
+                "name": "Installation"
+            },
+            {
+                "id": 240,
+                "isActive": "1",
+                "name": "iTunes"
+            },
+            {
+                "id": 241,
+                "isActive": "1",
+                "name": "iTunes Connect"
+            },
+            {
+                "id": 242,
+                "isActive": "1",
+                "name": "Java"
+            },
+            {
+                "id": 243,
+                "isActive": "1",
+                "name": "Keyboards, mice and trackpads"
+            },
+            {
+                "id": 244,
+                "isActive": "1",
+                "name": "Keynote, Numbers & Pages"
+            },
+            {
+                "id": 245,
+                "isActive": "1",
+                "name": "LaunchPad"
+            },
+            {
+                "id": 246,
+                "isActive": "1",
+                "name": "Localization"
+            },
+            {
+                "id": 247,
+                "isActive": "1",
+                "name": "Logic Pro X"
+            },
+            {
+                "id": 248,
+                "isActive": "1",
+                "name": "Mail"
+            },
+            {
+                "id": 249,
+                "isActive": "1",
+                "name": "Maps"
+            },
+            {
+                "id": 250,
+                "isActive": "1",
+                "name": "Menu Bar"
+            },
+            {
+                "id": 251,
+                "isActive": "1",
+                "name": "Messages"
+            },
+            {
+                "id": 252,
+                "isActive": "1",
+                "name": "Mission Control"
+            },
+            {
+                "id": 253,
+                "isActive": "1",
+                "name": "MusicKit on iOS"
+            },
+            {
+                "id": 254,
+                "isActive": "1",
+                "name": "Networking"
+            },
+            {
+                "id": 255,
+                "isActive": "1",
+                "name": "News Publisher"
+            },
+            {
+                "id": 256,
+                "isActive": "1",
+                "name": "Notes"
+            },
+            {
+                "id": 257,
+                "isActive": "1",
+                "name": "Numbers"
+            },
+            {
+                "id": 258,
+                "isActive": "1",
+                "name": "PDFKit"
+            },
+            {
+                "id": 259,
+                "isActive": "1",
+                "name": "Performance (slow, hung)"
+            },
+            {
+                "id": 260,
+                "isActive": "1",
+                "name": "Photos"
+            },
+            {
+                "id": 261,
+                "isActive": "1",
+                "name": "Preferences"
+            },
+            {
+                "id": 262,
+                "isActive": "1",
+                "name": "Preview"
+            },
+            {
+                "id": 263,
+                "isActive": "1",
+                "name": "Printing & Faxing"
+            },
+            {
+                "id": 264,
+                "isActive": "1",
+                "name": "Reminders"
+            },
+            {
+                "id": 265,
+                "isActive": "1",
+                "name": "Safari"
+            },
+            {
+                "id": 266,
+                "isActive": "1",
+                "name": "Screen Saver & desktop"
+            },
+            {
+                "id": 267,
+                "isActive": "1",
+                "name": "Server (macOS Server)"
+            },
+            {
+                "id": 268,
+                "isActive": "1",
+                "name": "Setup Assistant"
+            },
+            {
+                "id": 269,
+                "isActive": "1",
+                "name": "Software Update"
+            },
+            {
+                "id": 270,
+                "isActive": "1",
+                "name": "Spaces"
+            },
+            {
+                "id": 271,
+                "isActive": "1",
+                "name": "Spotlight"
+            },
+            {
+                "id": 272,
+                "isActive": "1",
+                "name": "Swift"
+            },
+            {
+                "id": 273,
+                "isActive": "1",
+                "name": "Terminal"
+            },
+            {
+                "id": 274,
+                "isActive": "1",
+                "name": "Time Machine"
+            },
+            {
+                "id": 275,
+                "isActive": "1",
+                "name": "Vision.framework"
+            },
+            {
+                "id": 276,
+                "isActive": "1",
+                "name": "Wi-Fi"
+            },
+            {
+                "id": 277,
+                "isActive": "1",
+                "name": "Xcode"
+            },
+            {
+                "id": 278,
+                "isActive": "1",
+                "name": "Something not on this list"
+            }
+        ],
+        "componentID": 137701,
+        "description": "For issues with macOS utilities and features (file system, graphics, networking, security, scripting, etc.)",
+        "id": 100,
+        "keywords": "Mac, iMac, Mac Mini, Macbook, iBook, Air, Pro, 12 Inch, Retina, Sierra, El Capitan, Yosemite, Mavericks, OS, X, 10.9, 10.10, 10.11, 10.12",
+        "name": "macOS + SDK",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 84201,
+        "description": "For QuickTime framework or QuickTime Player issues",
+        "id": 166,
+        "name": "QuickTime",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 84060,
+        "description": "For all Java issues",
+        "id": 168,
+        "name": "Java",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 84100,
+        "description": "For issues with Server administration and features (backups, calendaring, file sharing, user profiles, etc.)",
+        "id": 169,
+        "name": "Server",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 20206,
+        "description": "For issues against all other products not mentioned on this page (i.e, Apple Configurator, etc.)",
+        "id": 170,
+        "name": "Other",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 446084,
+        "description": "For all iAd Producer related issues",
+        "id": 175,
+        "name": "iAd Producer",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 375383,
+        "description": "For iPad hardware issues",
+        "id": 180,
+        "name": "iPad",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 251822,
+        "description": "For issues with the iTunes Store (downloads, playlists, Genius, etc.)",
+        "id": 182,
+        "name": "App Store",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 372025,
+        "description": "For issues with Pages, Numbers, Keynote, etc.",
+        "id": 183,
+        "name": "iWork",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 385563,
+        "description": "For all Technical Note & Technical Q&A issues (broken links, missing images, misinformation, typos, etc.)",
+        "id": 184,
+        "name": "Tech Note/Q&A",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 437784,
+        "description": "For all Accessibility / Universal Access related issues (Sticky Keys, Text-to-Speech, VoiceOver, etc.)",
+        "id": 185,
+        "name": "Accessibility",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 430025,
+        "description": "For all issues with Apple TV",
+        "id": 186,
+        "name": "Apple TV",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 430173,
+        "description": "For issues with the iTunes app or iTunes Match (iTunes Store issues should be submitted under the App Store product)",
+        "id": 189,
+        "name": "iTunes",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 445860,
+        "description": "For all iAd Network related issues",
+        "id": 190,
+        "name": "iAd Network",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 500515,
+        "description": "For all issues regarding iTunes Connect (a tool that allows developers to submit and manage apps for distribution).",
+        "id": 192,
+        "name": "iTunes Connect",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 205728,
+        "description": "For all Sample Code issues (broken links, missing images, misinformation, typos, etc.)",
+        "id": 193,
+        "name": "Sample Code",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 458288,
+        "description": "For issues with iCloud-related functionality (Find my iPhone, Find My Friends,  Documents, PhotoStream, etc.)",
+        "id": 194,
+        "name": "iCloud",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 445858,
+        "description": "For issues with GarageBand, iPhoto, iMovie, etc.",
+        "id": 195,
+        "name": "iLife",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 175412,
+        "description": "For Final Cut, Logic, Motion, Aperture, etc.",
+        "id": 196,
+        "name": "Pro Apps",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 213680,
+        "description": "For issues with OS X hardware (desktops and portables only).",
+        "id": 197,
+        "name": "Mac",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 262954,
+        "description": "For iPhone hardware issues",
+        "id": 198,
+        "name": "iPhone/iPod touch",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 213679,
+        "description": "For AirPrint, Image Capture, general printing, scanning and fax issues",
+        "id": 199,
+        "name": "Printing/Fax",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 372031,
+        "description": "For issues related to Apple Mail",
+        "id": 200,
+        "name": "Mail",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 175305,
+        "description": "For issues with the Safari app and related programming tools (including Webkit).",
+        "id": 201,
+        "name": "Safari",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 242322,
+        "description": "For all Bug Reporter issues",
+        "id": 202,
+        "name": "Bug Reporter",
+        "section": "Other"
+    },
+    {
+        "areas": [],
+        "componentID": 430023,
+        "description": "For issues with the Mac App Store (downloads, redemption codes, purchase backups, etc.)",
+        "id": 203,
+        "name": "Mac App Store",
+        "section": "Other"
+    },
+    {
+        "areas": [
+            {
+                "id": 100,
+                "isActive": "1",
+                "name": "Accelerate Framework"
+            },
+            {
+                "id": 101,
+                "isActive": "1",
+                "name": "Accessibility"
+            },
+            {
+                "id": 102,
+                "isActive": "1",
+                "name": "Accounts Framework"
+            },
+            {
+                "id": 103,
+                "isActive": "1",
+                "name": "App Store"
+            },
+            {
+                "id": 104,
+                "isActive": "1",
+                "name": "App Switcher"
+            },
+            {
+                "id": 105,
+                "isActive": "1",
+                "name": "ARKit"
+            },
+            {
+                "id": 106,
+                "isActive": "1",
+                "name": "Audio"
+            },
+            {
+                "id": 107,
+                "isActive": "1",
+                "name": "Audio Toolbox"
+            },
+            {
+                "id": 108,
+                "isActive": "1",
+                "name": "AVFoundation"
+            },
+            {
+                "id": 109,
+                "isActive": "1",
+                "name": "AVKit"
+            },
+            {
+                "id": 110,
+                "isActive": "1",
+                "name": "Battery Life"
+            },
+            {
+                "id": 111,
+                "isActive": "1",
+                "name": "Bluetooth"
+            },
+            {
+                "id": 112,
+                "isActive": "1",
+                "name": "Calendar"
+            },
+            {
+                "id": 113,
+                "isActive": "1",
+                "name": "CallKit"
+            },
+            {
+                "id": 114,
+                "isActive": "1",
+                "name": "CarPlay"
+            },
+            {
+                "id": 115,
+                "isActive": "1",
+                "name": "Cellular Service (Calls / Data)"
+            },
+            {
+                "id": 116,
+                "isActive": "1",
+                "name": "CFNetwork Framework"
+            },
+            {
+                "id": 117,
+                "isActive": "1",
+                "name": "CloudKit"
+            },
+            {
+                "id": 118,
+                "isActive": "1",
+                "name": "Contacts"
+            },
+            {
+                "id": 119,
+                "isActive": "1",
+                "name": "Contacts Framework"
+            },
+            {
+                "id": 120,
+                "isActive": "1",
+                "name": "Control Center"
+            },
+            {
+                "id": 121,
+                "isActive": "1",
+                "name": "Core Animation"
+            },
+            {
+                "id": 122,
+                "isActive": "1",
+                "name": "Core Bluetooth"
+            },
+            {
+                "id": 123,
+                "isActive": "1",
+                "name": "Core Data"
+            },
+            {
+                "id": 124,
+                "isActive": "1",
+                "name": "Core Foundation"
+            },
+            {
+                "id": 125,
+                "isActive": "1",
+                "name": "Core Graphics"
+            },
+            {
+                "id": 126,
+                "isActive": "1",
+                "name": "Core Image"
+            },
+            {
+                "id": 127,
+                "isActive": "1",
+                "name": "Core Location"
+            },
+            {
+                "id": 128,
+                "isActive": "1",
+                "name": "Core Media"
+            },
+            {
+                "id": 129,
+                "isActive": "1",
+                "name": "Core Motion"
+            },
+            {
+                "id": 130,
+                "isActive": "1",
+                "name": "Core Spotlight"
+            },
+            {
+                "id": 131,
+                "isActive": "1",
+                "name": "Core Telephony Framework"
+            },
+            {
+                "id": 132,
+                "isActive": "1",
+                "name": "Core Video"
+            },
+            {
+                "id": 133,
+                "isActive": "1",
+                "name": "CoreML"
+            },
+            {
+                "id": 134,
+                "isActive": "1",
+                "name": "Core NFC"
+            },
+            {
+                "id": 135,
+                "isActive": "1",
+                "name": "EventKit"
+            },
+            {
+                "id": 136,
+                "isActive": "1",
+                "name": "External Accessory Framework"
+            },
+            {
+                "id": 137,
+                "isActive": "1",
+                "name": "FaceTime"
+            },
+            {
+                "id": 138,
+                "isActive": "1",
+                "name": "FileProvider Framework"
+            },
+            {
+                "id": 139,
+                "isActive": "1",
+                "name": "Files App"
+            },
+            {
+                "id": 140,
+                "isActive": "1",
+                "name": "Foundation"
+            },
+            {
+                "id": 141,
+                "isActive": "1",
+                "name": "GameplayKit"
+            },
+            {
+                "id": 142,
+                "isActive": "1",
+                "name": "GLKit"
+            },
+            {
+                "id": 143,
+                "isActive": "1",
+                "name": "Health App"
+            },
+            {
+                "id": 144,
+                "isActive": "1",
+                "name": "HealthKit"
+            },
+            {
+                "id": 145,
+                "isActive": "1",
+                "name": "Home App"
+            },
+            {
+                "id": 146,
+                "isActive": "1",
+                "name": "Home Screen"
+            },
+            {
+                "id": 147,
+                "isActive": "1",
+                "name": "HomeKit"
+            },
+            {
+                "id": 148,
+                "isActive": "1",
+                "name": "iCloud"
+            },
+            {
+                "id": 149,
+                "isActive": "1",
+                "name": "Image I/O"
+            },
+            {
+                "id": 150,
+                "isActive": "1",
+                "name": "Intents Framework"
+            },
+            {
+                "id": 151,
+                "isActive": "1",
+                "name": "IOKit"
+            },
+            {
+                "id": 152,
+                "isActive": "1",
+                "name": "iPod Accessory Protocol (iAP)"
+            },
+            {
+                "id": 153,
+                "isActive": "1",
+                "name": "iTune Store"
+            },
+            {
+                "id": 154,
+                "isActive": "1",
+                "name": "iTunes Connect"
+            },
+            {
+                "id": 155,
+                "isActive": "1",
+                "name": "Keyboard"
+            },
+            {
+                "id": 156,
+                "isActive": "1",
+                "name": "Local Authentication Framework"
+            },
+            {
+                "id": 157,
+                "isActive": "1",
+                "name": "Location Services"
+            },
+            {
+                "id": 158,
+                "isActive": "1",
+                "name": "Lock Screen"
+            },
+            {
+                "id": 159,
+                "isActive": "1",
+                "name": "Mail"
+            },
+            {
+                "id": 160,
+                "isActive": "1",
+                "name": "MapKit"
+            },
+            {
+                "id": 161,
+                "isActive": "1",
+                "name": "Maps"
+            },
+            {
+                "id": 162,
+                "isActive": "1",
+                "name": "MDM"
+            },
+            {
+                "id": 163,
+                "isActive": "1",
+                "name": "Media Player Framework"
+            },
+            {
+                "id": 164,
+                "isActive": "1",
+                "name": "Messages"
+            },
+            {
+                "id": 165,
+                "isActive": "1",
+                "name": "Messages Framework"
+            },
+            {
+                "id": 166,
+                "isActive": "1",
+                "name": "Metal"
+            },
+            {
+                "id": 167,
+                "isActive": "1",
+                "name": "Model I/O"
+            },
+            {
+                "id": 168,
+                "isActive": "1",
+                "name": "Multipeer Connectivity Framework"
+            },
+            {
+                "id": 169,
+                "isActive": "1",
+                "name": "Music"
+            },
+            {
+                "id": 170,
+                "isActive": "1",
+                "name": "MusicKit Apple Music APIs"
+            },
+            {
+                "id": 171,
+                "isActive": "1",
+                "name": "MusicKit on iOS"
+            },
+            {
+                "id": 172,
+                "isActive": "1",
+                "name": "Network Extensions Framework"
+            },
+            {
+                "id": 173,
+                "isActive": "1",
+                "name": "News"
+            },
+            {
+                "id": 174,
+                "isActive": "1",
+                "name": "Notes"
+            },
+            {
+                "id": 175,
+                "isActive": "1",
+                "name": "Notification Center"
+            },
+            {
+                "id": 176,
+                "isActive": "1",
+                "name": "NotificationCenter Framework"
+            },
+            {
+                "id": 177,
+                "isActive": "1",
+                "name": "Notifications"
+            },
+            {
+                "id": 178,
+                "isActive": "1",
+                "name": "PassKit"
+            },
+            {
+                "id": 179,
+                "isActive": "1",
+                "name": "PDFKit"
+            },
+            {
+                "id": 180,
+                "isActive": "1",
+                "name": "Phone App"
+            },
+            {
+                "id": 181,
+                "isActive": "1",
+                "name": "Photos"
+            },
+            {
+                "id": 182,
+                "isActive": "1",
+                "name": "Photos Framework"
+            },
+            {
+                "id": 183,
+                "isActive": "1",
+                "name": "Profiles"
+            },
+            {
+                "id": 184,
+                "isActive": "1",
+                "name": "PushKit"
+            },
+            {
+                "id": 185,
+                "isActive": "1",
+                "name": "QuickLook Framework"
+            },
+            {
+                "id": 186,
+                "isActive": "1",
+                "name": "Reminders"
+            },
+            {
+                "id": 187,
+                "isActive": "1",
+                "name": "ReplayKit"
+            },
+            {
+                "id": 188,
+                "isActive": "1",
+                "name": "Safari"
+            },
+            {
+                "id": 189,
+                "isActive": "1",
+                "name": "Safari Services"
+            },
+            {
+                "id": 190,
+                "isActive": "1",
+                "name": "SceneKit"
+            },
+            {
+                "id": 191,
+                "isActive": "1",
+                "name": "Security Framework"
+            },
+            {
+                "id": 192,
+                "isActive": "1",
+                "name": "Setup Assistant"
+            },
+            {
+                "id": 193,
+                "isActive": "1",
+                "name": "Simulator"
+            },
+            {
+                "id": 194,
+                "isActive": "1",
+                "name": "Siri"
+            },
+            {
+                "id": 195,
+                "isActive": "1",
+                "name": "Social Framework"
+            },
+            {
+                "id": 196,
+                "isActive": "1",
+                "name": "Software Update"
+            },
+            {
+                "id": 197,
+                "isActive": "1",
+                "name": "Split View / Drag and Drop"
+            },
+            {
+                "id": 198,
+                "isActive": "1",
+                "name": "Spotlight"
+            },
+            {
+                "id": 199,
+                "isActive": "1",
+                "name": "SpriteKit"
+            },
+            {
+                "id": 200,
+                "isActive": "1",
+                "name": "StoreKit"
+            },
+            {
+                "id": 201,
+                "isActive": "1",
+                "name": "System Slow/Unresponsive"
+            },
+            {
+                "id": 202,
+                "isActive": "1",
+                "name": "SystemConfiguration Framework"
+            },
+            {
+                "id": 203,
+                "isActive": "1",
+                "name": "TouchID"
+            },
+            {
+                "id": 204,
+                "isActive": "1",
+                "name": "UIKit"
+            },
+            {
+                "id": 205,
+                "isActive": "1",
+                "name": "UserNotifications Framework"
+            },
+            {
+                "id": 206,
+                "isActive": "1",
+                "name": "Vision.framework"
+            },
+            {
+                "id": 207,
+                "isActive": "1",
+                "name": "VPN"
+            },
+            {
+                "id": 208,
+                "isActive": "1",
+                "name": "Wallet"
+            },
+            {
+                "id": 209,
+                "isActive": "1",
+                "name": "WebKit"
+            },
+            {
+                "id": 210,
+                "isActive": "1",
+                "name": "Wi-Fi"
+            },
+            {
+                "id": 211,
+                "isActive": "1",
+                "name": "Xcode"
+            },
+            {
+                "id": 212,
+                "isActive": "1",
+                "name": "Something not on this list"
+            },
+            {
+                "id": 331,
+                "isActive": "1",
+                "name": "SiriKit"
+            },
+            {
+                "id": 332,
+                "isActive": "1",
+                "name": "IdentityLookup Framework"
+            }
+        ],
+        "componentID": 579020,
+        "description": "For issues with iOS utilities and features",
+        "id": 210,
+        "keywords": "iPhone, Operating System, iOS, iPad, iPod",
+        "name": "iOS + SDK",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 185585,
+        "description": "For iPod hardware issues",
+        "id": 212,
+        "name": "iPod",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 601986,
+        "description": "For HomeKit issues",
+        "id": 213,
+        "name": "HomeKit Accessory Certification",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 571983,
+        "description": "For issues with iBooks and iBooks Author",
+        "id": 214,
+        "name": "iBooks",
+        "section": "Software"
+    },
+    {
+        "areas": [
+            {
+                "id": 306,
+                "isActive": "1",
+                "name": "Accessibility"
+            },
+            {
+                "id": 307,
+                "isActive": "1",
+                "name": "Activity"
+            },
+            {
+                "id": 308,
+                "isActive": "1",
+                "name": "Battery Life"
+            },
+            {
+                "id": 309,
+                "isActive": "1",
+                "name": "Bluetooth"
+            },
+            {
+                "id": 310,
+                "isActive": "1",
+                "name": "Calendar"
+            },
+            {
+                "id": 311,
+                "isActive": "1",
+                "name": "Contacts"
+            },
+            {
+                "id": 312,
+                "isActive": "1",
+                "name": "Control Center"
+            },
+            {
+                "id": 313,
+                "isActive": "1",
+                "name": "Dock"
+            },
+            {
+                "id": 314,
+                "isActive": "1",
+                "name": "HealthKit"
+            },
+            {
+                "id": 315,
+                "isActive": "1",
+                "name": "HomeKit"
+            },
+            {
+                "id": 316,
+                "isActive": "1",
+                "name": "Maps"
+            },
+            {
+                "id": 317,
+                "isActive": "1",
+                "name": "Messages"
+            },
+            {
+                "id": 318,
+                "isActive": "1",
+                "name": "Music"
+            },
+            {
+                "id": 319,
+                "isActive": "1",
+                "name": "Notification Center"
+            },
+            {
+                "id": 320,
+                "isActive": "1",
+                "name": "Notifications"
+            },
+            {
+                "id": 321,
+                "isActive": "1",
+                "name": "Setup and Pairing"
+            },
+            {
+                "id": 322,
+                "isActive": "1",
+                "name": "Simulator"
+            },
+            {
+                "id": 323,
+                "isActive": "1",
+                "name": "Siri"
+            },
+            {
+                "id": 324,
+                "isActive": "1",
+                "name": "Syncing"
+            },
+            {
+                "id": 325,
+                "isActive": "1",
+                "name": "Wallet"
+            },
+            {
+                "id": 326,
+                "isActive": "1",
+                "name": "Watch Faces"
+            },
+            {
+                "id": 327,
+                "isActive": "1",
+                "name": "WatchKit"
+            },
+            {
+                "id": 328,
+                "isActive": "1",
+                "name": "Workout"
+            },
+            {
+                "id": 329,
+                "isActive": "1",
+                "name": "Xcode"
+            },
+            {
+                "id": 330,
+                "isActive": "1",
+                "name": "Something not on this list"
+            }
+        ],
+        "componentID": 645251,
+        "description": "For issues with watchOS apps and features",
+        "id": 215,
+        "keywords": "Apple Watch, Edition, Sport, Nike, OS1, OS2, OS3",
+        "name": "watchOS + SDK",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 657117,
+        "description": "For issues with all other hardware accessories (monitors, pointing devices, speakers, etc.).",
+        "id": 217,
+        "name": "Other Hardware",
+        "section": "Hardware"
+    },
+    {
+        "areas": [],
+        "componentID": 175326,
+        "description": "For all Xcode issues (including Xcode tools - Interface Builder, Instruments, compilers, simulators, command line tools, Swift Programming language, etc.)",
+        "id": 218,
+        "name": "Developer Tools",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 571212,
+        "description": "CarPlay",
+        "id": 219,
+        "name": "CarPlay Accessory Certification",
+        "section": "Hardware"
+    },
+    {
+        "areas": [
+            {
+                "id": 279,
+                "isActive": "1",
+                "name": "Accessibility"
+            },
+            {
+                "id": 280,
+                "isActive": "1",
+                "name": "Accounts"
+            },
+            {
+                "id": 281,
+                "isActive": "1",
+                "name": "AirPlay"
+            },
+            {
+                "id": 282,
+                "isActive": "1",
+                "name": "App Store"
+            },
+            {
+                "id": 283,
+                "isActive": "1",
+                "name": "App Switcher"
+            },
+            {
+                "id": 284,
+                "isActive": "1",
+                "name": "AV Playback"
+            },
+            {
+                "id": 285,
+                "isActive": "1",
+                "name": "Bluetooth"
+            },
+            {
+                "id": 286,
+                "isActive": "1",
+                "name": "Device Management / Profiles"
+            },
+            {
+                "id": 287,
+                "isActive": "1",
+                "name": "Display"
+            },
+            {
+                "id": 288,
+                "isActive": "1",
+                "name": "Home Screen"
+            },
+            {
+                "id": 289,
+                "isActive": "1",
+                "name": "Movies / TV Shows"
+            },
+            {
+                "id": 290,
+                "isActive": "1",
+                "name": "Music"
+            },
+            {
+                "id": 291,
+                "isActive": "1",
+                "name": "Networking"
+            },
+            {
+                "id": 292,
+                "isActive": "1",
+                "name": "Photos"
+            },
+            {
+                "id": 293,
+                "isActive": "1",
+                "name": "Remote.app Support"
+            },
+            {
+                "id": 294,
+                "isActive": "1",
+                "name": "Screensaver"
+            },
+            {
+                "id": 295,
+                "isActive": "1",
+                "name": "Search"
+            },
+            {
+                "id": 296,
+                "isActive": "1",
+                "name": "Settings"
+            },
+            {
+                "id": 297,
+                "isActive": "1",
+                "name": "Setup (includes Tap Setup)"
+            },
+            {
+                "id": 298,
+                "isActive": "1",
+                "name": "Siri"
+            },
+            {
+                "id": 299,
+                "isActive": "1",
+                "name": "Software Update"
+            },
+            {
+                "id": 300,
+                "isActive": "1",
+                "name": "SSO"
+            },
+            {
+                "id": 301,
+                "isActive": "1",
+                "name": "System, General"
+            },
+            {
+                "id": 302,
+                "isActive": "1",
+                "name": "TV App"
+            },
+            {
+                "id": 303,
+                "isActive": "1",
+                "name": "TVML Apps"
+            },
+            {
+                "id": 304,
+                "isActive": "1",
+                "name": "tvOS SDK"
+            },
+            {
+                "id": 305,
+                "isActive": "1",
+                "name": "Something not on this list"
+            }
+        ],
+        "componentID": 660932,
+        "description": "For issues with tvOS apps and features",
+        "id": 220,
+        "keywords": "Apple TV",
+        "name": "tvOS + SDK",
+        "section": "Development"
+    },
+    {
+        "areas": [],
+        "componentID": 697770,
+        "description": "For issues with Safari Technology Preview.",
+        "id": 223,
+        "name": "Safari Technology Preview",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 750751,
+        "description": "For issues related to Siri and SiriKit",
+        "id": 224,
+        "name": "Siri",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 689043,
+        "description": "For issues with Apple\u2019s educational software, including iTunes U for iOS, and Course Manager.",
+        "id": 225,
+        "name": "iTunes U",
+        "section": "Software"
+    },
+    {
+        "areas": [],
+        "componentID": 758790,
+        "description": "For issues with Swift Playgrounds (including the app, and the enclosed lessons, exercises, and challenges)",
+        "id": 226,
+        "name": "Swift Playgrounds",
+        "section": "Software"
+    }
+]

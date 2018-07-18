@@ -4,6 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Sonar",
     products: [
+        .executable(name: "getproducts", targets: ["getproducts"]),
         .library(name: "Sonar", targets: ["Sonar"]),
     ],
     dependencies: [
@@ -11,5 +12,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "Sonar", dependencies: ["Alamofire"]),
+        .target(name: "getproducts", dependencies: ["Sonar"]),
     ]
 )

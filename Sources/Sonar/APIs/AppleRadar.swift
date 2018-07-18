@@ -51,6 +51,38 @@ final class AppleRadar: BugTracker {
             }
     }
 
+    /// Get a list of all products and areas supported by radar
+    /// NOTE: This requires an authorized user
+    ///
+    /// - parameter closure: Called with the final array of parsed products, or an error
+    func getProductsAndAreas(closure: @escaping (Result<[Product], SonarError>) -> Void) {
+        guard let token = self.token else {
+            closure(.failure(SonarError(message: "User is not logged in")))
+            return
+        }
+
+        self.manager
+            .request(AppleRadarRouter.getProductsAndAreas(token: token))
+            .validate()
+            .responseString { response in
+                guard case .success(let string) = response.result else {
+                    closure(.failure(SonarError.from(response)))
+                    return
+                }
+
+                guard let data = string.data(using: .utf8) else {
+                    closure(.failure(SonarError(message: "Invalid data: \(string)")))
+                    return
+                }
+
+                if let products = try? JSONDecoder().decode([Product].self, from: data) {
+                    closure(.success(products))
+                } else {
+                    closure(.failure(SonarError(message: "Malformed response: \(string)")))
+                }
+            }
+    }
+
     /// Creates a new ticket into apple's radar (needs authentication first).
     ///
     /// - parameter radar:   The radar model with the information for the ticket.
