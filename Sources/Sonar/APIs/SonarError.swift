@@ -14,7 +14,7 @@ public struct SonarError: Error {
 
     /// Use when a 412 is received. This happens when you haven't accepted a new agreement
     static let preconditionError = SonarError(
-        message: "Precondition failed, try logging in on the web to validate your account")
+        message: "Precondition failed, try logging in on the web to validate your Apple developer account")
 
     init(message: String) {
         self.message = message
